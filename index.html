@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constellation Connect</title>
+<style>
+:root{
+  --night:#070914; --ink:#eeeaff; --muted:rgba(238,234,255,.48);
+  --line:rgba(255,255,255,.13); --panel:rgba(255,255,255,.035);
+  --lavender:#aaa4d8; --glow:rgba(93,82,155,.16);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--night);color:var(--ink)}
+body{font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.45;background-image:radial-gradient(circle,white 0 1px,transparent 1.5px);background-size:90px 90px;z-index:0}
+button,input{font:inherit}
+button{color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:1px solid #c6c0ff;outline-offset:3px}
+.app{position:relative;z-index:1;min-height:100vh;padding:28px 24px 36px;background:radial-gradient(circle at center,rgba(93,82,155,.16),transparent 48%),#070914}
+header{text-align:center;padding:8px 0 0}
+.kicker,.eyebrow,.micro{font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:9px;color:var(--muted)}
+h1{font-weight:normal;font-size:clamp(29px,5vw,52px);letter-spacing:clamp(3px, .7vw, 8px);line-height:1.12;margin:10px 0 8px}
+.subtitle{font-size:14px;font-style:italic;opacity:.62}
+.topline{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:23px auto 18px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--muted)}
+.pip{width:4px;height:4px;border-radius:50%;background:#b7b0e8;opacity:.7}
+.panel{border:1px solid var(--line);background:var(--panel);border-radius:14px;backdrop-filter:blur(8px)}
+.welcome{width:min(560px,100%);margin:36px auto 0;padding:clamp(24px,5vw,44px);text-align:center}
+.welcome .sigil{font-size:28px;color:#c7c0ff;opacity:.8;margin-bottom:14px}
+.welcome p{font-size:15px;line-height:1.8;opacity:.7;max-width:390px;margin:16px auto 24px}
+.name-wrap{max-width:340px;margin:0 auto;text-align:left}
+label{display:block;font-family:Arial,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:13px 14px;color:var(--ink);font-family:Arial,sans-serif;font-size:13px}
+.btn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.055);padding:11px 16px;border-radius:999px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;transition:background .2s,border-color .2s,transform .2s}
+.btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.32);transform:translateY(-1px)}
+.btn.primary{background:rgba(170,164,216,.14);border-color:rgba(170,164,216,.48)}
+.btn.small{padding:8px 12px;font-size:8px}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.welcome .primary{margin-top:16px;min-width:190px}
+.fineprint{font:9px/1.6 Arial,sans-serif;letter-spacing:.6px;color:rgba(238,234,255,.35);margin-top:22px}
+.game{display:none;width:min(1100px,100%);margin:0 auto}
+.game.active{display:block}
+.game-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 14px}
+.player{font-size:12px;letter-spacing:1px}
+.player span{font-style:italic;opacity:.6}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.stat{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025);border-radius:999px;padding:8px 12px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:1px;color:rgba(238,234,255,.72)}
+.stat strong{font-weight:normal;color:#fff;margin-left:5px}
+.section-title{text-align:center;margin:20px 0 14px}
+.section-title h2{font-size:25px;font-weight:normal;letter-spacing:5px;margin:0}
+.section-title p{font:9px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;opacity:.38;margin:8px 0 0}
+.map-shell{position:relative;width:100%;aspect-ratio:16/9;min-height:260px;border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at center,rgba(100,90,160,.12),transparent 62%)}
+.map-shell::before,.map-shell::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.035);border-radius:50%;pointer-events:none}
+.map-shell::before{width:72%;height:72%;left:14%;top:14%;transform:rotate(18deg)}
+.map-shell::after{width:48%;height:48%;left:26%;top:26%;transform:rotate(-25deg)}
+.map-label{position:absolute;z-index:2;top:19px;left:22px;font:9px Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;opacity:.35}
+.map-hint{position:absolute;z-index:2;right:18px;top:18px;font:9px Arial,sans-serif;letter-spacing:1px;color:rgba(238,234,255,.35);text-align:right}
+#starMap{position:absolute;inset:0;width:100%;height:100%;z-index:3;touch-action:manipulation}
+.star-point{cursor:pointer;transition:filter .15s}
+.star-point:hover{filter:drop-shadow(0 0 7px currentColor) drop-shadow(0 0 16px currentColor)}
+.user-line{stroke-width:1.6;stroke-linecap:round;opacity:.86;pointer-events:stroke;cursor:pointer}
+.map-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.color-picker{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.color-picker span{font:8px Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase;opacity:.45;margin-right:3px}
+.swatch{width:19px;height:19px;border-radius:50%;border:1px solid rgba(255,255,255,.25);padding:0;position:relative}
+.swatch.active::after{content:"";position:absolute;inset:-4px;border:1px solid rgba(255,255,255,.65);border-radius:50%}
+.swatch[data-color="#d9d2ff"]{background:#d9d2ff}.swatch[data-color="#78a9ff"]{background:#78a9ff}.swatch[data-color="#ffb17b"]{background:#ffb17b}.swatch[data-color="#ff7777"]{background:#ff7777}.swatch[data-color="#9ee2ce"]{background:#9ee2ce}
+.controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 0}
+.below{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.info-card{padding:16px 18px}
+.info-card h3{font-weight:normal;font-size:13px;letter-spacing:1.4px;margin:0 0 8px}
+.info-card p{font:11px/1.7 Arial,sans-serif;color:rgba(238,234,255,.48);margin:0}
+.feedback{display:none;margin:16px 0 0;padding:18px 20px;text-align:center}
+.feedback.active{display:block}
+.feedback h3{font-weight:normal;font-size:18px;letter-spacing:2px;margin:0 0 7px}
+.feedback p{font:11px/1.7 Arial,sans-serif;color:rgba(238,234,255,.58);margin:0 0 14px}
+.feedback .stamp{font:9px Arial,sans-serif;letter-spacing:1px;color:rgba(238,234,255,.42)}
+.footer{text-align:center;margin-top:30px;font:8px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:rgba(238,234,255,.25)}
+.modal-backdrop{position:fixed;inset:0;z-index:10;background:rgba(2,3,10,.72);display:none;align-items:center;justify-content:center;padding:20px}
+.modal-backdrop.active{display:flex}
+.modal{width:min(470px,100%);padding:26px;border:1px solid rgba(255,255,255,.15);border-radius:14px;background:linear-gradient(135deg,rgba(18,20,38,.99),rgba(9,11,21,.99));box-shadow:0 20px 70px rgba(0,0,0,.55)}
+.modal h2{font-weight:normal;font-size:22px;letter-spacing:2px;margin:0 0 14px}
+.modal p,.modal li{font:12px/1.8 Arial,sans-serif;color:rgba(238,234,255,.65)}
+.modal ul{padding-left:18px}
+.modal .btn{margin-top:12px}
+@media(max-width:650px){
+ .app{padding:22px 12px 28px}
+ .subtitle{font-size:12px}
+ .topline{gap:7px;font-size:8px;letter-spacing:1px}
+ .welcome{margin-top:25px;padding:25px 18px}
+ .game-meta{justify-content:center}
+ .player{width:100%;text-align:center}
+ .stats{justify-content:center}
+ .section-title h2{font-size:21px;letter-spacing:4px}
+ .map-shell{min-height:230px;aspect-ratio:4/3}
+ .map-label{top:13px;left:13px;font-size:8px;letter-spacing:2px}
+ .map-hint{top:13px;right:13px;font-size:8px}
+ .below{grid-template-columns:1fr}
+ .map-footer{justify-content:center}
+ .controls .btn{flex:1;min-width:100px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <div class="kicker">Advanced Astronomy · Observation Exercise</div>
+    <h1>CONSTELLATION CONNECT</h1>
+    <div class="subtitle">A quiet sky, waiting to be read.</div>
+  </header>
+  <div class="topline"><span>FIELD NOTE 01</span><i class="pip"></i><span>THE NIGHT SKY</span><i class="pip"></i><span>OBSERVER'S EDITION</span></div>
+
+  <section class="welcome panel" id="welcome">
+    <div class="sigil">✦</div>
+    <div class="eyebrow">Welcome, Observer</div>
+    <p>A new patch of the night sky awaits your discovery. Find the pattern among the stars and connect them in the order you believe is right.</p>
+    <div class="name-wrap">
+      <label for="observerName">Observer name</label>
+      <input id="observerName" type="text" maxlength="40" placeholder="Enter your name" autocomplete="name">
+    </div>
+    <button class="btn primary" id="beginBtn">Begin Observation</button>
+    <div class="fineprint">Your name will appear on the observation record.<br>All displayed times use Western Indonesia Time (WIB).</div>
+  </section>
+
+  <section class="game" id="game">
+    <div class="game-meta">
+      <div class="player">OBSERVER <span id="playerName">—</span></div>
+      <div class="stats">
+        <div class="stat">WIB <strong id="clock">—</strong></div>
+        <div class="stat">DATE <strong id="date">—</strong></div>
+        <div class="stat">TIME LEFT <strong id="countdown">15:00</strong></div>
+      </div>
+    </div>
+    <div class="section-title">
+      <h2>THE UNCHARTED SKY</h2>
+      <p>Connect the stars · Trust your observation</p>
+    </div>
+    <div class="map-shell">
+      <div class="map-label">Observation Field · 01</div>
+      <div class="map-hint">SELECT TWO STARS<br>TO DRAW A LINE</div>
+      <svg id="starMap" viewBox="0 0 1000 562.5" preserveAspectRatio="none" aria-label="Interactive star map"></svg>
+    </div>
+    <div class="map-footer">
+      <div class="color-picker"><span>Line colour</span>
+        <button class="swatch active" data-color="#d9d2ff" aria-label="Lavender line"></button>
+        <button class="swatch" data-color="#78a9ff" aria-label="Blue line"></button>
+        <button class="swatch" data-color="#ffb17b" aria-label="Amber line"></button>
+        <button class="swatch" data-color="#ff7777" aria-label="Red line"></button>
+        <button class="swatch" data-color="#9ee2ce" aria-label="Mint line"></button>
+      </div>
+      <button class="btn small" id="helpBtn">How to Play</button>
+    </div>
+    <div class="controls">
+      <button class="btn" id="undoBtn">Undo Line</button>
+      <button class="btn" id="clearBtn">Clear Map</button>
+      <button class="btn" id="musicBtn">♫ Ambience: Off</button>
+      <button class="btn primary" id="submitBtn">Submit Observation</button>
+    </div>
+    <div class="feedback panel" id="feedback" aria-live="polite">
+      <h3 id="feedbackTitle">Observation Received</h3>
+      <p id="feedbackText"></p>
+      <div class="stamp" id="feedbackStamp"></div>
+      <div class="controls" id="feedbackControls"></div>
+    </div>
+    <div class="below">
+      <div class="info-card panel">
+        <h3>Sky Update</h3>
+        <p>Several stars appear brighter than the rest, but brightness alone may not reveal the pattern. Observe their positions before drawing your lines.</p>
+      </div>
+      <div class="info-card panel">
+        <h3>Field Notes</h3>
+        <p>Lines are only checked after you submit. If your first attempt is incorrect, you may adjust the map and try again before time runs out.</p>
+      </div>
+    </div>
+  </section>
+  <div class="footer">The Celestial Archive · Advanced Astronomy</div>
+</main>
+
+<div class="modal-backdrop" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+  <div class="modal">
+    <h2 id="helpTitle">How to Play</h2>
+    <ul>
+      <li>Tap or click one star, then another, to connect them.</li>
+      <li>Tap a connected line to remove it. Use Undo Line or Clear Map if needed.</li>
+      <li>Choose a line colour before drawing; colour does not affect your answer.</li>
+      <li>Press Submit Observation when you are ready. The map is not checked while you draw.</li>
+      <li>If the answer is incorrect, revise your lines and submit again before the timer ends.</li>
+    </ul>
+    <button class="btn primary" id="closeHelp">Return to the Sky</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   GAME SETTINGS — adjust these values before publishing.
+   The example schedule is open-ended for local testing.
+   Use ISO-like WIB date/time: YYYY-MM-DDTHH:MM:SS
+========================================================= */
+const GAME_SETTINGS = {
+  durationSeconds: 15 * 60,
+  opensAt: null, // e.g. "2026-10-20T19:00:00"
+  closesAt: null, // e.g. "2026-10-20T19:30:00"
+  // Accepted edges are unordered pairs of star IDs.
+  // Replace with your final constellation solution(s).
+  acceptedPatterns: [
+    [["s1","s2"],["s2","s3"],["s3","s4"],["s4","s5"],["s2","s6"],["s6","s7"]]
+  ]
+};
+
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("starMap");
+const welcome = document.getElementById("welcome");
+const game = document.getElementById("game");
+const nameInput = document.getElementById("observerName");
+const feedback = document.getElementById("feedback");
+const feedbackControls = document.getElementById("feedbackControls");
+
+const stars = [
+  {id:"s1",x:210,y:190,r:4.2,c:"#eeeaff"},
+  {id:"s2",x:335,y:245,r:5.2,c:"#c7c0ff"},
+  {id:"s3",x:460,y:300,r:3.7,c:"#eeeaff"},
+  {id:"s4",x:585,y:265,r:4.6,c:"#eeeaff"},
+  {id:"s5",x:720,y:345,r:5.1,c:"#b9caff"},
+  {id:"s6",x:420,y:145,r:3.8,c:"#eeeaff"},
+  {id:"s7",x:555,y:115,r:4.3,c:"#eeeaff"},
+  {id:"s8",x:780,y:175,r:3.2,c:"#eeeaff"},
+  {id:"s9",x:275,y:390,r:3.3,c:"#eeeaff"},
+  {id:"s10",x:655,y:430,r:3.4,c:"#eeeaff"},
+  {id:"s11",x:145,y:330,r:2.8,c:"#eeeaff"},
+  {id:"s12",x:840,y:300,r:2.8,c:"#eeeaff"},
+  {id:"s13",x:510,y:390,r:2.8,c:"#eeeaff"},
+  {id:"s14",x:365,y:90,r:2.8,c:"#eeeaff"}
+];
+let selectedStar = null;
+let edges = [];
+let lineColor = "#d9d2ff";
+let observer = "";
+let startedAt = null;
+let endsAt = null;
+let timerHandle = null;
+let submitted = false;
+let audioContext = null;
+let ambienceOscillators = [];
+let ambienceGain = null;
+
+function el(tag, attrs={}) {
+  const node = document.createElementNS(NS, tag);
+  Object.entries(attrs).forEach(([key,value])=>node.setAttribute(key,value));
+  return node;
+}
+function edgeKey(a,b){return [a,b].sort().join("|")}
+function starById(id){return stars.find(s=>s.id===id)}
+function appendBackgroundStars(){
+  for(let i=0;i<100;i++){
+    const x=(i*137.51+23)%1000, y=(i*79.37+17)%562.5;
+    const circle=el("circle",{cx:x,cy:y,r:(i%5===0?1.15:.55),fill:"#fff",opacity:(i%4===0?.42:.18)});
+    svg.appendChild(circle);
+  }
+}
+function drawMap(){
+  svg.innerHTML="";
+  appendBackgroundStars();
+  // Lines sit behind the stars and can be tapped to remove.
+  edges.forEach(edge=>{
+    const a=starById(edge.a), b=starById(edge.b);
+    if(!a||!b)return;
+    const line=el("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:edge.color,class:"user-line"});
+    line.addEventListener("click",()=>{if(!submitted){edges=edges.filter(e=>edgeKey(e.a,e.b)!==edgeKey(edge.a,edge.b));drawMap();}});
+    svg.appendChild(line);
+  });
+  stars.forEach(s=>{
+    const group=el("g",{class:"star-point",tabindex:"0",role:"button","aria-label":"Star "+s.id});
+    const halo=el("circle",{cx:s.x,cy:s.y,r:s.r*3.5,fill:s.c,opacity:.06});
+    const glow=el("circle",{cx:s.x,cy:s.y,r:s.r*1.8,fill:s.c,opacity:.13});
+    const core=el("circle",{cx:s.x,cy:s.y,r:s.r,fill:s.c,opacity:.95});
+    group.append(halo,glow,core);
+    if(selectedStar===s.id){
+      group.appendChild(el("circle",{cx:s.x,cy:s.y,r:s.r*2.6,fill:"none",stroke:"#fff","stroke-width":1.1,opacity:.9}));
+    }
+    group.addEventListener("click",()=>handleStar(s.id));
+    group.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();handleStar(s.id)}});
+    svg.appendChild(group);
+  });
+}
+function handleStar(id){
+  if(submitted || isExpired())return;
+  if(!selectedStar){selectedStar=id;drawMap();return}
+  if(selectedStar===id){selectedStar=null;drawMap();return}
+  const key=edgeKey(selectedStar,id);
+  if(!edges.some(e=>edgeKey(e.a,e.b)===key)) edges.push({a:selectedStar,b:id,color:lineColor});
+  selectedStar=null;drawMap();
+}
+function currentWIBParts(){
+  const parts = new Intl.DateTimeFormat("en-CA",{
+    timeZone:"Asia/Jakarta",year:"numeric",month:"2-digit",day:"2-digit",
+    hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"
+  }).formatToParts(new Date());
+  return Object.fromEntries(parts.map(p=>[p.type,p.value]));
+}
+function nowWIBString(){
+  const p=currentWIBParts();
+  return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second} WIB`;
+}
+function updateClock(){
+  const p=currentWIBParts();
+  document.getElementById("clock").textContent=`${p.hour}:${p.minute}:${p.second}`;
+  document.getElementById("date").textContent=`${p.day}.${p.month}.${p.year}`;
+}
+function wibDateToTimestamp(value){
+  if(!value)return null;
+  // Input is interpreted as WIB, UTC+7.
+  return new Date(value+"+07:00").getTime();
+}
+function scheduleState(){
+  const now=Date.now(), open=wibDateToTimestamp(GAME_SETTINGS.opensAt), close=wibDateToTimestamp(GAME_SETTINGS.closesAt);
+  if(open && now<open)return {ok:false,message:"This star map has not opened yet. Return when the observation window begins."};
+  if(close && now>=close)return {ok:false,message:"This star map is closed. The observation window has ended."};
+  return {ok:true};
+}
+function isExpired(){return endsAt!==null && Date.now()>=endsAt}
+function formatRemaining(seconds){
+  seconds=Math.max(0,seconds|0);
+  return `${String(Math.floor(seconds/60)).padStart(2,"0")}:${String(seconds%60).padStart(2,"0")}`;
+}
+function updateCountdown(){
+  if(!endsAt)return;
+  const seconds=Math.ceil((endsAt-Date.now())/1000);
+  document.getElementById("countdown").textContent=formatRemaining(seconds);
+  if(seconds<=0){
+    document.getElementById("countdown").textContent="00:00";
+    stopAmbience();
+    document.getElementById("submitBtn").disabled=true;
+    document.getElementById("undoBtn").disabled=true;
+    document.getElementById("clearBtn").disabled=true;
+    selectedStar=null;
+    if(!submitted)showFeedback("Observation Window Ended","Time is up. Your current map can no longer be changed or submitted.",false);
+    clearInterval(timerHandle);
+  }
+}
+function begin(){
+  const schedule=scheduleState();
+  if(!schedule.ok){showGateMessage(schedule.message);return}
+  const value=nameInput.value.trim();
+  if(!value){nameInput.focus();nameInput.style.borderColor="#ff9a9a";return}
+  observer=value;
+  document.getElementById("playerName").textContent=observer;
+  welcome.style.display="none";game.classList.add("active");
+  startedAt=Date.now();endsAt=startedAt+GAME_SETTINGS.durationSeconds*1000;
+  drawMap();updateClock();updateCountdown();
+  timerHandle=setInterval(()=>{updateClock();updateCountdown();},250);
+}
+function showGateMessage(message){
+  const backdrop=document.getElementById("helpModal");
+  document.getElementById("helpTitle").textContent="Observation Window";
+  backdrop.querySelector("ul")?.remove();
+  let p=backdrop.querySelector(".gate-message");
+  if(!p){p=document.createElement("p");p.className="gate-message";backdrop.querySelector(".modal").insertBefore(p,backdrop.querySelector(".btn"))}
+  p.textContent=message;
+  backdrop.classList.add("active");
+}
+function showFeedback(title,message,allowRetry){
+  feedback.classList.add("active");
+  document.getElementById("feedbackTitle").textContent=title;
+  document.getElementById("feedbackText").textContent=message;
+  document.getElementById("feedbackStamp").textContent=`${observer} · ${nowWIBString()}`;
+  feedbackControls.innerHTML="";
+  if(allowRetry){
+    const retry=document.createElement("button");retry.className="btn primary";retry.textContent="Revise Observation";
+    retry.addEventListener("click",()=>{feedback.classList.remove("active");submitted=false;document.getElementById("submitBtn").disabled=false;document.getElementById("undoBtn").disabled=false;document.getElementById("clearBtn").disabled=false;drawMap();});
+    feedbackControls.appendChild(retry);
+  }else{
+    const done=document.createElement("button");done.className="btn";done.textContent="Finish Record";
+    done.addEventListener("click",()=>{stopAmbience();done.textContent="Record Captured";done.disabled=true;});
+    feedbackControls.appendChild(done);
+  }
+  feedback.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function normalisePattern(pattern){return pattern.map(pair=>edgeKey(pair[0],pair[1])).sort()}
+function submit(){
+  if(isExpired()||submitted)return;
+  const schedule=scheduleState();
+  if(!schedule.ok){showFeedback("Observation Window Closed",schedule.message,false);return}
+  const current=edges.map(e=>edgeKey(e.a,e.b)).sort();
+  const correct=GAME_SETTINGS.acceptedPatterns.some(pattern=>{
+    const expected=normalisePattern(pattern);
+    return expected.length===current.length && expected.every((v,i)=>v===current[i]);
+  });
+  submitted=true;
+  if(correct){
+    stopAmbience();
+    showFeedback("Pattern Confirmed","Your star connections match an accepted pattern. Keep this observation record as your proof of completion.",false);
+  }else{
+    showFeedback("Pattern Not Yet Confirmed","The connections do not match an accepted pattern. Your lines are preserved; revise them and submit again.",true);
+  }
+}
+function setLineColor(color){
+  lineColor=color;
+  document.querySelectorAll(".swatch").forEach(btn=>btn.classList.toggle("active",btn.dataset.color===color));
+}
+function stopAmbience(){
+  if(audioContext){
+    ambienceOscillators.forEach(o=>{try{o.stop()}catch(e){}});
+    ambienceOscillators=[];try{audioContext.close()}catch(e){}
+    audioContext=null;ambienceGain=null;
+  }
+  document.getElementById("musicBtn").textContent="♫ Ambience: Off";
+}
+async function toggleAmbience(){
+  if(audioContext){stopAmbience();return}
+  try{
+    audioContext=new (window.AudioContext||window.webkitAudioContext)();
+    ambienceGain=audioContext.createGain();ambienceGain.gain.value=.012;ambienceGain.connect(audioContext.destination);
+    [110,164.81,220].forEach((freq,i)=>{
+      const osc=audioContext.createOscillator();const gain=audioContext.createGain();
+      osc.type="sine";osc.frequency.value=freq;gain.gain.value=[.5,.25,.15][i];
+      osc.connect(gain);gain.connect(ambienceGain);osc.start();ambienceOscillators.push(osc);
+    });
+    document.getElementById("musicBtn").textContent="♫ Ambience: On";
+  }catch(e){stopAmbience();alert("Ambient audio is unavailable in this browser.");}
+}
+
+document.getElementById("beginBtn").addEventListener("click",begin);
+nameInput.addEventListener("keydown",e=>{if(e.key==="Enter")begin()});
+document.getElementById("submitBtn").addEventListener("click",submit);
+document.getElementById("undoBtn").addEventListener("click",()=>{if(!submitted&&!isExpired()&&edges.length){edges.pop();selectedStar=null;drawMap()}});
+document.getElementById("clearBtn").addEventListener("click",()=>{if(!submitted&&!isExpired()){edges=[];selectedStar=null;drawMap()}});
+document.getElementById("musicBtn").addEventListener("click",toggleAmbience);
+document.querySelectorAll(".swatch").forEach(btn=>btn.addEventListener("click",()=>setLineColor(btn.dataset.color)));
+const helpModal=document.getElementById("helpModal");
+document.getElementById("helpBtn").addEventListener("click",()=>helpModal.classList.add("active"));
+document.getElementById("closeHelp").addEventListener("click",()=>helpModal.classList.remove("active"));
+helpModal.addEventListener("click",e=>{if(e.target===helpModal)helpModal.classList.remove("active")});
+updateClock();
+setInterval(updateClock,1000);
+</script>
+</body>
+</html>

@@ -270,8 +270,6 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 <script>
 /* =========================================================
    GAME SETTINGS — adjust these values before publishing.
-   The example schedule is open-ended for local testing.
-   Use ISO-like WIB date/time: YYYY-MM-DDTHH:MM:SS
 ========================================================= */
 const DEFAULT_CONFIG = {
   siteTitle: "CONSTELLATION CONNECT",
@@ -300,9 +298,24 @@ const DEFAULT_CONFIG = {
 };
 const STORAGE_KEY = "constellationConnectDraftV2";
 let config = loadDraftConfig() || structuredClone(DEFAULT_CONFIG);
+
 function loadDraftConfig(){try{const v=localStorage.getItem(STORAGE_KEY);return v?JSON.parse(v):null}catch(e){return null}}
 function persistDraft(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(config));return true}catch(e){return false}}
 
+// Auto-fetch external json config if hosted on GitHub Pages
+(async function fetchExternalConfig() {
+  try {
+    const res = await fetch("constellation-game-config.json?v=" + Date.now());
+    if (res.ok) {
+      const remoteConfig = await res.json();
+      if (!loadDraftConfig()) {
+        config = { ...structuredClone(DEFAULT_CONFIG), ...remoteConfig };
+        applyConfigToPage();
+        drawMap();
+      }
+    }
+  } catch (e) {}
+})();
 
 const NS = "http://www.w3.org/2000/svg";
 const svg = document.getElementById("starMap");
@@ -349,7 +362,6 @@ function appendBackgroundStars(){
 function drawMap(){
   svg.innerHTML="";
   appendBackgroundStars();
-  // Lines sit behind the stars and can be tapped to remove.
   edges.forEach(edge=>{
     const a=starById(edge.a), b=starById(edge.b);
     if(!a||!b)return;
@@ -397,14 +409,13 @@ function updateClock(){
 }
 function wibDateToTimestamp(value){
   if(!value)return null;
-  // Accept YYYY-MM-DD HH:mm or datetime-local format; always interpret as WIB.
   const normalized=String(value).trim().replace(" ","T");
   if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/.test(normalized))return null;
   return new Date((normalized.length===16?normalized+":00":normalized)+"+07:00").getTime();
 }
 function scheduleState(){
   const now=Date.now(), open=wibDateToTimestamp(config.opensAt), close=wibDateToTimestamp(config.closesAt);
-  if(!open || !close)return {ok:false,message:"The observation window has not been configured yet. Please return when the schedule is announced."};
+  if(!open || !close)return {ok:true};
   if(now<open)return {ok:false,message:"This star map has not opened yet. Return when the observation window begins."};
   if(now>=close)return {ok:false,message:"This star map is closed. The observation window has ended."};
   return {ok:true};
@@ -417,7 +428,7 @@ function formatRemaining(seconds){
 function updateCountdown(){
   const close=wibDateToTimestamp(config.closesAt);
   const deadline=close || endsAt;
-  if(!deadline){document.getElementById("countdown").textContent="NOT SET";return;}
+  if(!deadline){document.getElementById("countdown").textContent="OPEN";return;}
   const seconds=Math.ceil((deadline-Date.now())/1000);
   document.getElementById("countdown").textContent=formatRemaining(seconds);
   if(seconds<=0){
@@ -530,10 +541,6 @@ helpModal.addEventListener("click",e=>{if(e.target===helpModal)helpModal.classLi
 const resultModal=document.getElementById("resultModal");
 resultModal.addEventListener("click",e=>{if(e.target===resultModal)resultModal.classList.remove("active")});
 
-// ---------------------------
-// Built-in visual game editor
-// Open with ?editor=1. Export a configured player HTML to publish the current setup.
-// ---------------------------
 const editorBackdrop=document.getElementById("editorBackdrop");
 const editorSvg=document.getElementById("editorMap");
 const editorStatus=document.getElementById("editorStatus");
@@ -550,7 +557,7 @@ function applyConfigToPage(){
   lineColor=config.lineColor||"#d9d2ff";
   document.querySelectorAll(".swatch").forEach(b=>b.classList.toggle("active",b.dataset.color===lineColor));
   stars=config.stars;
-  document.getElementById("countdown").textContent="NOT SET";
+  document.getElementById("countdown").textContent="OPEN";
 }
 function editorField(id){return document.getElementById(id)}
 function fillEditorFields(){
@@ -612,10 +619,7 @@ function makeExportHTML(){
   readEditorFields();
   let html=document.documentElement.outerHTML;
   const escaped=JSON.stringify(config).replace(/</g,"\\u003c");
-  html=html.replace(/const DEFAULT_CONFIG = \{[\s\S]*?\n\};\nconst STORAGE_KEY = "constellationConnectDraftV2";\nlet config = loadDraftConfig\(\) \|\| structuredClone\(DEFAULT_CONFIG\);/,`const DEFAULT_CONFIG = ${escaped};\nconst STORAGE_KEY = "constellationConnectDraftV2";\nlet config = structuredClone(DEFAULT_CONFIG);`);
-  // Sanitise transient UI state captured by outerHTML during export.
-  // The editor may be exported while a result popup is open; never bake that
-  // old popup or a previous attempt's timestamp into the published player page.
+  html=html.replace(/const DEFAULT_CONFIG = \{[\s\S]*?\};/, `const DEFAULT_CONFIG = ${escaped};`);
   html=html.replace('class="editor-backdrop active" id="editorBackdrop"','class="editor-backdrop" id="editorBackdrop"');
   html=html.replace('id="adminEntry" style="display: flex;"','id="adminEntry"');
   html=html.replace('class="modal-backdrop active" id="resultModal"','class="modal-backdrop" id="resultModal"');
@@ -624,12 +628,10 @@ function makeExportHTML(){
   html=html.replace('class="game active" id="game"','class="game" id="game"');
   html=html.replace('class="welcome hidden" id="welcome"','class="welcome" id="welcome"');
   html=html.replace('class="welcome active" id="welcome"','class="welcome" id="welcome"');
-  // Clear any text left by the last test attempt in the exported markup.
-  html=html.replace(/<h3 id="feedbackTitle">[\s\S]*?<\/h3>/,'<h3 id="feedbackTitle">Observation Received</h3>');
-  html=html.replace(/<p id="feedbackText">[\s\S]*?<\/p>/,'<p id="feedbackText"></p>');
-  html=html.replace(/<div class="stamp" id="feedbackStamp">[\s\S]*?<\/div>/,'<div class="stamp" id="feedbackStamp"></div>');
-  html=html.replace(/<div class="controls" id="feedbackControls">[\s\S]*?<\/div>/,'<div class="controls" id="feedbackControls"></div>');
-  // Keep ?editor=1 available, but never export the editor or result popup open.
+  html=html.replace(/<h3 id="feedbackTitle">[\s\S]*?<\/h3>/,'<h3 id="feedbackTitle">Observation Received<\/h3>');
+  html=html.replace(/<p id="feedbackText">[\s\S]*?<\/p>/,'<p id="feedbackText"><\/p>');
+  html=html.replace(/<div class="stamp" id="feedbackStamp">[\s\S]*?<\/div>/,'<div class="stamp" id="feedbackStamp"><\/div>');
+  html=html.replace(/<div class="controls" id="feedbackControls">[\s\S]*?<\/div>/,'<div class="controls" id="feedbackControls"><\/div>');
   return "<!DOCTYPE html>\n"+html;
 }
 function saveDraft(){readEditorFields();const ok=persistDraft();applyConfigToPage();drawMap();editorStatus.textContent=ok?"Draft saved in this browser. Export Player HTML to publish for all players.":"Could not save local draft in this browser.";renderEditorMap();renderStarList();renderPatternSelect()}

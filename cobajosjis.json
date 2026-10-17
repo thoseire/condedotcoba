@@ -1,0 +1,142 @@
+{
+  "siteTitle": "THE STELLAR TRACES",
+  "welcomeText": "A new patch of the night sky awaits your discovery. Find the pattern among the stars and connect them in the order you believe is right.",
+  "title": "OCTOBER'S AUTUMN SKY",
+  "subheading": "Connect the stars · Trust your observation",
+  "mapLabel": "ST 01 20 26 10",
+  "skyUpdate": "Beside the hunter, I guard the night.\nWithin my form, the brightest star shines bright.\nA greater hound is what I am called.\nName me, Observer, standing proud.",
+  "fieldNotes": ". . . . . . . .",
+  "opensAt": "2026-10-15 07:00",
+  "closesAt": "2026-10-20 23:59",
+  "durationMinutes": 0,
+  "lineColor": "#d9d2ff",
+  "stars": [
+    {
+      "id": "s1",
+      "x": 246,
+      "y": 180,
+      "r": 4.2,
+      "c": "#eeeaff"
+    },
+    {
+      "id": "s2",
+      "x": 335,
+      "y": 245,
+      "r": 5.2,
+      "c": "#c7c0ff"
+    },
+    {
+      "id": "s5",
+      "x": 716,
+      "y": 359,
+      "r": 5.1,
+      "c": "#b9caff"
+    },
+    {
+      "id": "s6",
+      "x": 476,
+      "y": 166,
+      "r": 3.8,
+      "c": "#eeeaff"
+    },
+    {
+      "id": "s7",
+      "x": 606,
+      "y": 150,
+      "r": 4.5,
+      "c": "#fb9e46"
+    },
+    {
+      "id": "s8",
+      "x": 728,
+      "y": 216,
+      "r": 3.2,
+      "c": "#eeeaff"
+    },
+    {
+      "id": "s9",
+      "x": 275,
+      "y": 390,
+      "r": 10,
+      "c": "#7abfff"
+    },
+    {
+      "id": "s10",
+      "x": 601,
+      "y": 459,
+      "r": 3.4,
+      "c": "#eeeaff"
+    },
+    {
+      "id": "s11",
+      "x": 145,
+      "y": 330,
+      "r": 5,
+      "c": "#ffffff"
+    },
+    {
+      "id": "s12",
+      "x": 827,
+      "y": 314,
+      "r": 2.8,
+      "c": "#eeeaff"
+    },
+    {
+      "id": "s13",
+      "x": 498,
+      "y": 359,
+      "r": 2.8,
+      "c": "#eeeaff"
+    },
+    {
+      "id": "s14",
+      "x": 408,
+      "y": 94,
+      "r": 2.8,
+      "c": "#eeeaff"
+    },
+    {
+      "id": "s15",
+      "x": 432,
+      "y": 456,
+      "r": 3.8,
+      "c": "#eeeaff"
+    }
+  ],
+  "acceptedPatterns": [
+    [
+      [
+        "s1",
+        "s2"
+      ],
+      [
+        "s2",
+        "s6"
+      ],
+      [
+        "s6",
+        "s7"
+      ]
+    ],
+    [
+      [
+        "s1",
+        "s9"
+      ],
+      [
+        "s1",
+        "s2"
+      ],
+      [
+        "s12",
+        "s5"
+      ]
+    ],
+    [
+      [
+        "s7",
+        "s9"
+      ]
+    ]
+  ]
+}

@@ -3,8 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Constellation Connect — Game & Editor</title>
+<title>The Stellar Trace</title>
 <style>
+  @font-face {
+  font-family: 'Variable Star';
+  src: url('Variablestar.woff2') format('woff2'),
+       url('Variablestar.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 :root{
   --night:#070914; --ink:#eeeaff; --muted:rgba(238,234,255,.48);
   --line:rgba(255,255,255,.13); --panel:rgba(255,255,255,.035);
@@ -31,7 +38,14 @@ button:focus-visible,input:focus-visible{outline:1px solid #c6c0ff;outline-offse
 .app{position:relative;z-index:1;min-height:100vh;padding:28px 24px 36px;background:radial-gradient(circle at center,rgba(93,82,155,.16),transparent 48%),#070914}
 header{text-align:center;padding:8px 0 0}
 .kicker,.eyebrow,.micro{font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:9px;color:var(--muted)}
-h1{font-weight:normal;font-size:clamp(29px,5vw,52px);letter-spacing:clamp(3px, .7vw, 8px);line-height:1.12;margin:10px 0 8px}
+h1 {
+  font-family: 'Variable Star', Georgia, serif;
+  font-weight: normal;
+  font-size: clamp(29px, 5vw, 52px);
+  letter-spacing: clamp(3px, .7vw, 8px);
+  line-height: 1.12;
+  margin: 10px 0 8px;
+}
 .subtitle{font-size:14px;font-style:italic;opacity:.62}
 .topline{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:23px auto 18px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--muted)}
 .pip{width:4px;height:4px;border-radius:50%;background:#b7b0e8;opacity:.7}

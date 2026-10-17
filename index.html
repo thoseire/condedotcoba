@@ -305,7 +305,7 @@ function persistDraft(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(conf
 // Auto-fetch external json config if hosted on GitHub Pages
 (async function fetchExternalConfig() {
   try {
-    const res = await fetch("constellation-game-config.json?v=" + Date.now());
+    const res = await fetch("cobajosjis.json?v=" + Date.now());
     if (res.ok) {
       const remoteConfig = await res.json();
       if (!loadDraftConfig()) {

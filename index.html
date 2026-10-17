@@ -159,7 +159,7 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
       <div class="stats">
         <div class="stat">WIB <strong id="clock">—</strong></div>
         <div class="stat">DATE <strong id="date">—</strong></div>
-        <div class="stat">WINDOW CLOSES IN <strong id="countdown">—</strong></div>
+        <div class="stat">TIME REMAINING <strong id="countdown">—</strong></div>
       </div>
     </div>
     <div class="section-title">
@@ -223,8 +223,8 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
     <div class="editor-field"><label for="cfgTitle">Judul peta</label><input id="cfgTitle" type="text" maxlength="80"></div>
     <div class="editor-field"><label for="cfgSubheading">Subjudul</label><input id="cfgSubheading" type="text" maxlength="120"></div>
     <div class="editor-field"><label for="cfgMapLabel">Label peta</label><input id="cfgMapLabel" type="text" maxlength="80"></div>
-    <div class="editor-field"><label for="cfgSkyUpdate">Sky Update / petunjuk</label><textarea id="cfgSkyUpdate" maxlength="500"></textarea></div>
-    <div class="editor-field"><label for="cfgFieldNotes">Field Notes</label><textarea id="cfgFieldNotes" maxlength="500"></textarea></div>
+    <div class="editor-field"><label for="cfgSkyUpdate">HINT</label><textarea id="cfgSkyUpdate" maxlength="500"></textarea></div>
+    <div class="editor-field"><label for="cfgFieldNotes">Sky Updates</label><textarea id="cfgFieldNotes" maxlength="500"></textarea></div>
    </section>
    <section class="editor-card"><h3>02 · OBSERVATION SCHEDULE (WIB)</h3>
     <div class="editor-field"><label for="cfgOpens">Tanggal & jam mulai</label><input id="cfgOpens" type="text" placeholder="2026-10-20 19:00"><small>Masukkan format YYYY-MM-DD HH:mm. Waktu selalu ditafsirkan sebagai WIB, apa pun zona waktu perangkat.</small></div>
@@ -257,11 +257,13 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
   <div class="modal">
     <h2 id="helpTitle">How to Play</h2>
     <ul>
-      <li>Tap or click one star, then another, to connect them.</li>
-      <li>Tap a connected line to remove it. Use Undo Line or Clear Map if needed.</li>
-      <li>Choose a line colour before drawing; colour does not affect your answer.</li>
-      <li>Press Submit Observation when you are ready. The map is not checked while you draw.</li>
-      <li>If the answer is incorrect, revise your lines and submit again before the timer ends.</li>
+      <li>Connect the stars by tapping or clicking two stars in sequence.</li>
+      <li>Remove lines by tapping or clicking them. Use Undo Line to remove the last line or Clear Map to start over.</li>
+      <li>Choose a line colour before drawing. Line colours do not affect your answer.</li>
+      <li>Check the star colours. They mark the three brightest stars in order: Blue (1st), Orange (2nd), and Red (3rd).</li>
+      <li>Submit your observation when you are ready. Your answer will only be checked after you press Submit Observation.</li>
+      <li>Revise if needed. If your pattern is incorrect, adjust your lines and submit again before the timer runs out.</li>
+      <li>Looking for a reference? Go to <a href="https://www.go-astronomy.com/constellations.htm" target="_blank" style="color: #c7c0ff; text-decoration: underline;">.</li>
     </ul>
     <button class="btn primary" id="closeHelp">Return to the Sky</button>
   </div>
@@ -496,9 +498,9 @@ function submit(){
   submitted=true;
   if(correct){
     stopAmbience();
-    showFeedback("Pattern Confirmed","Your star connections match an accepted pattern. Keep this observation record as your proof of completion.",false);
+    showFeedback("₊⊹PATTERN CONFIRMED₊⊹","The stars align as expected. Keep this record to mark your completed observation.",false);
   }else{
-    showFeedback("Pattern Not Yet Confirmed","The connections do not match an accepted pattern. Your lines are preserved; revise them and submit again.",true);
+    showFeedback("❓PATTERN UNCONFIRMED❓","The stars do not align as expected. Your lines are still here, so make your adjustments and try again.",true);
   }
 }
 function setLineColor(color){

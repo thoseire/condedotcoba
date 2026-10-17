@@ -21,9 +21,9 @@ body::before {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  opacity: 0.75; /* Menaikkan kejelasan titik-titik */
+  opacity: 0.75;
   background-image: radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1.2px);
-  background-size: 50px 50px; /* Membuat pola titik lebih rapat dan merata */
+  background-size: 50px 50px;
   z-index: 0;
 }
 button{color:inherit;cursor:pointer}
@@ -38,7 +38,7 @@ h1{font-weight:normal;font-size:clamp(29px,5vw,52px);letter-spacing:clamp(3px, .
 .panel{border:1px solid var(--line);background:var(--panel);border-radius:14px;backdrop-filter:blur(8px)}
 .welcome{width:min(560px,100%);margin:36px auto 0;padding:clamp(24px,5vw,44px);text-align:center}
 .welcome .sigil{font-size:28px;color:#c7c0ff;opacity:.8;margin-bottom:14px}
-.welcome p{font-size:15px;line-height:1.8;opacity:.7;max-width:390px;margin:16px auto 24px}
+.welcome p{font-size:15px;line-height:1.8;opacity:.7;max-width:390px;margin:16px auto 24px;white-space:pre-line}
 .name-wrap{max-width:340px;margin:0 auto;text-align:left}
 label{display:block;font-family:Arial,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
 input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:13px 14px;color:var(--ink);font-family:Arial,sans-serif;font-size:13px}
@@ -80,15 +80,15 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 .below{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
 .info-card{padding:16px 18px}
 .info-card h3{font-weight:normal;font-size:13px;letter-spacing:1.4px;margin:0 0 8px}
-.info-card p{font:11px/1.7 Arial,sans-serif;color:rgba(238,234,255,.48);margin:0}
+.info-card p{font:11px/1.7 Arial,sans-serif;color:rgba(238,234,255,.48);margin:0;white-space:pre-line}
 .feedback{display:none;margin:0;padding:8px 0;text-align:center}
 .feedback.active{display:block}
 .result-modal-content{width:min(470px,100%);text-align:center}
 .result-modal-content .feedback h3{font-size:22px;letter-spacing:1.5px}
-.result-modal-content .feedback p{font-size:12px}
+.result-modal-content .feedback p{font-size:12px;white-space:pre-line}
 .result-modal-content .feedback .stamp{margin-top:12px}
 .feedback h3{font-weight:normal;font-size:18px;letter-spacing:2px;margin:0 0 7px}
-.feedback p{font:11px/1.7 Arial,sans-serif;color:rgba(238,234,255,.58);margin:0 0 14px}
+.feedback p{font:11px/1.7 Arial,sans-serif;color:rgba(238,234,255,.58);margin:0 0 14px;white-space:pre-line}
 .feedback .stamp{font:9px Arial,sans-serif;letter-spacing:1px;color:rgba(238,234,255,.42)}
 .footer{text-align:center;margin-top:30px;font:8px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:rgba(238,234,255,.25)}
 .modal-backdrop{position:fixed;inset:0;z-index:10;background:rgba(2,3,10,.72);display:none;align-items:center;justify-content:center;padding:20px}
@@ -98,48 +98,37 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 .modal p,.modal li{font:12px/1.8 Arial,sans-serif;color:rgba(238,234,255,.65)}
 .modal ul{padding-left:18px}
 .modal .btn{margin-top:12px}
-@media(max-width:650px){
- .app{padding:22px 12px 28px}
- .subtitle{font-size:12px}
- .topline{gap:7px;font-size:8px;letter-spacing:1px}
- .welcome{margin-top:25px;padding:25px 18px}
- .game-meta{justify-content:center}
- .player{width:100%;text-align:center}
- .stats{justify-content:center}
- .section-title h2{font-size:21px;letter-spacing:4px}
- .map-shell{min-height:230px;aspect-ratio:4/3}
- .map-label{top:13px;left:13px;font-size:8px;letter-spacing:2px}
- .map-hint{top:13px;right:13px;font-size:8px}
- .below{grid-template-columns:1fr}
- .map-footer{justify-content:center}
- .controls .btn{flex:1;min-width:100px}
-}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
+/* DESAIN EDITING BARU LAPANG & LUAS */
 .admin-entry{position:relative;z-index:4;display:flex;justify-content:center;margin:0 auto 8px}
-.editor-backdrop{position:fixed;inset:0;z-index:30;background:rgba(2,3,10,.84);display:none;overflow:auto;padding:22px}
+.editor-backdrop{position:fixed;inset:0;z-index:30;background:rgba(2,3,10,.92);display:none;overflow:auto;padding:16px}
 .editor-backdrop.active{display:block}
-.editor{width:min(1000px,100%);margin:0 auto;padding:clamp(18px,3vw,32px);background:linear-gradient(135deg,rgba(18,20,38,.99),rgba(7,9,20,.99));border:1px solid rgba(255,255,255,.17);border-radius:16px;box-shadow:0 20px 70px rgba(0,0,0,.6)}
-.editor-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-.editor-head h2{font-weight:normal;letter-spacing:3px;margin:0;font-size:23px}
-.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.editor-card{padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.025);min-width:0}
-.editor-card h3{font-size:13px;font-weight:normal;letter-spacing:1.5px;margin:0 0 14px}
-.editor-field{margin:0 0 12px}
-.editor-field input,.editor-field textarea,.editor-field select{width:100%;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:10px;color:var(--ink);font:12px Arial,sans-serif}
-.editor-field textarea{min-height:68px;resize:vertical;line-height:1.5}
-.editor-field small{display:block;font:10px/1.5 Arial,sans-serif;color:var(--muted);margin-top:5px}
-.editor-field input[type=color]{height:38px;padding:4px}
-.editor-map{height:250px;position:relative;border:1px solid rgba(255,255,255,.1);border-radius:10px;overflow:hidden;margin-bottom:10px;background:radial-gradient(ellipse,rgba(100,90,160,.12),transparent 65%)}
+.editor{width:min(1280px,100%);margin:0 auto;padding:20px;background:linear-gradient(135deg,rgba(18,20,38,.99),rgba(7,9,20,.99));border:1px solid rgba(255,255,255,.17);border-radius:16px;box-shadow:0 20px 70px rgba(0,0,0,.6)}
+.editor-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:12px}
+.editor-head h2{font-weight:normal;letter-spacing:3px;margin:0;font-size:22px}
+.editor-map-container{margin-bottom:20px;padding:16px;border:1px solid rgba(170,164,216,.3);border-radius:14px;background:rgba(0,0,0,.3)}
+.editor-map-container h3{font-size:14px;font-weight:normal;letter-spacing:2px;margin:0 0 8px;color:#c7c0ff}
+.editor-map{width:100%;aspect-ratio:16/9;min-height:380px;position:relative;border:1px solid rgba(255,255,255,.15);border-radius:12px;overflow:hidden;background:radial-gradient(ellipse,rgba(100,90,160,.18),transparent 70%)}
 #editorMap{width:100%;height:100%;display:block;touch-action:none}
-.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.editor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.editor-card{padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.025);min-width:0}
+.editor-card h3{font-size:12px;font-weight:normal;letter-spacing:1.5px;margin:0 0 12px;color:#aaa4d8}
+.editor-field{margin:0 0 12px}
+.editor-field input,.editor-field textarea,.editor-field select{width:100%;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:9px;color:var(--ink);font:12px Arial,sans-serif}
+.editor-field textarea{min-height:64px;resize:vertical;line-height:1.5}
+.editor-field small{display:block;font:10px/1.5 Arial,sans-serif;color:var(--muted);margin-top:4px}
+.editor-field input[type=color]{height:38px;padding:3px}
+.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .editor-actions .btn{flex:0 0 auto}
 .editor-status{font:11px/1.6 Arial,sans-serif;color:#c7c0ff;margin-top:10px;min-height:17px}
-.editor-help{font:11px/1.7 Arial,sans-serif;color:var(--muted);margin:0 0 12px}
-.star-list{max-height:160px;overflow:auto;font:11px Arial,sans-serif;color:var(--muted);line-height:1.9}
+.editor-help{font:11px/1.6 Arial,sans-serif;color:var(--muted);margin:0 0 10px}
+.star-list{max-height:140px;overflow:auto;font:11px Arial,sans-serif;color:var(--muted);line-height:1.8}
 .star-list button{margin-left:8px;font:10px Arial,sans-serif;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--ink);cursor:pointer}
-@media(max-width:700px){.editor-backdrop{padding:8px}.editor-grid{grid-template-columns:1fr}.editor-head h2{font-size:19px}.editor-map{height:210px}}
 
+@media(max-width:900px){
+  .editor-grid{grid-template-columns:1fr}
+  .editor-map{min-height:260px}
+}
 </style>
 </head>
 <body>
@@ -222,44 +211,69 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
   <div class="footer">Advanced Astronomy Class · Aodhan Wynndale</div>
 </main>
 
-
 <div class="editor-backdrop" id="editorBackdrop" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
  <div class="editor">
-  <div class="editor-head"><div><div class="eyebrow">Private setup · Observer's edition</div><h2 id="editorTitle">GAME EDITOR</h2></div><button class="btn" id="closeEditorBtn">Close Editor</button></div>
-  <p class="editor-help">Atur isi game secara visual. Perubahan tersimpan sebagai draft di browser ini. Untuk menerbitkan perubahan ke semua pemain, klik <b>Export Player HTML</b>, lalu upload hasilnya ke GitHub sebagai <code>index.html</code>. Editor tetap bisa dibuka lewat link yang sama dengan tambahan <code>?editor=1</code>.</p>
+  <div class="editor-head">
+    <div><div class="eyebrow">Private setup · Visual Canvas</div><h2 id="editorTitle">GAME EDITOR</h2></div>
+    <button class="btn" id="closeEditorBtn">Close Editor</button>
+  </div>
+  
+  <section class="editor-map-container">
+    <h3>01 · STAR MAP CANVAS (Visual Plotter)</h3>
+    <p class="editor-help">Klik bintang lalu geser untuk memindahkan. Gunakan tombol di bawah untuk kontrol cepat.</p>
+    <div class="editor-map">
+      <svg id="editorMap" viewBox="0 0 1000 562.5" preserveAspectRatio="none"></svg>
+    </div>
+    <div class="editor-actions">
+      <button class="btn small primary" id="addStarBtn">＋ Add Star</button>
+      <button class="btn small" id="deleteStarBtn">Delete Selected</button>
+      <button class="btn small" id="cancelAddStarBtn">Cancel Add</button>
+      <button class="btn small" id="answerModeBtn" style="margin-left:auto">Answer Mode: Off</button>
+      <button class="btn small" id="savePatternBtn">Save Pattern</button>
+      <button class="btn small" id="clearAnswerBtn">Clear Lines</button>
+    </div>
+    <div class="editor-status" id="answerStatus"></div>
+  </section>
+
   <div class="editor-grid">
-   <section class="editor-card"><h3>01 · GAME DETAILS</h3>
+   <section class="editor-card">
+    <h3>02 · STAR & ANSWER CONTROLS</h3>
+    <div class="editor-field"><label for="cfgStarColor">Selected star colour</label><input id="cfgStarColor" type="color" value="#eeeaff"></div>
+    <div class="editor-field"><label for="cfgStarSize">Selected star size</label><input id="cfgStarSize" type="range" min="2" max="10" step="0.5" value="4.2"></div>
+    <div class="editor-field"><label for="cfgGuideFile">Upload Gambar Guide (Lokal/Laptop)</label><input id="cfgGuideFile" type="file" accept="image/*"><small>Gambar ini hanya pembantu visual di editor & tidak terlihat pemain.</small></div>
+    <div class="editor-field"><label for="cfgPatternSelect">Saved accepted patterns</label><select id="cfgPatternSelect"></select></div>
+    <div class="editor-actions"><button class="btn small" id="deletePatternBtn">Delete Pattern</button><button class="btn small" id="loadPatternBtn">Load Pattern to Edit</button></div>
+    <div class="star-list" id="starList" style="margin-top:10px"></div>
+   </section>
+
+   <section class="editor-card">
+    <h3>03 · GAME DETAILS</h3>
     <div class="editor-field"><label for="cfgSiteTitle">Judul utama website</label><input id="cfgSiteTitle" type="text" maxlength="80"></div>
     <div class="editor-field"><label for="cfgWelcomeText">Teks sambutan pemain</label><textarea id="cfgWelcomeText" maxlength="500"></textarea></div>
     <div class="editor-field"><label for="cfgTitle">Judul peta</label><input id="cfgTitle" type="text" maxlength="80"></div>
     <div class="editor-field"><label for="cfgSubheading">Subjudul</label><input id="cfgSubheading" type="text" maxlength="120"></div>
     <div class="editor-field"><label for="cfgMapLabel">Label peta</label><input id="cfgMapLabel" type="text" maxlength="80"></div>
     <div class="editor-field"><label for="cfgSkyUpdate">HINT</label><textarea id="cfgSkyUpdate" maxlength="500"></textarea></div>
-    <div class="editor-field"><label for="cfgFieldNotes">Sky Updates</label><textarea id="cfgFieldNotes" maxlength="500"></textarea></div>
+    <div class="editor-field"><label for="cfgFieldNotes">SKY UPDATES</label><textarea id="cfgFieldNotes" maxlength="500"></textarea></div>
    </section>
-   <section class="editor-card"><h3>02 · OBSERVATION SCHEDULE (WIB)</h3>
-    <div class="editor-field"><label for="cfgOpens">Tanggal & jam mulai</label><input id="cfgOpens" type="text" placeholder="2026-10-20 19:00"><small>Masukkan format YYYY-MM-DD HH:mm. Waktu selalu ditafsirkan sebagai WIB, apa pun zona waktu perangkat.</small></div>
-    <div class="editor-field"><label for="cfgCloses">Tanggal & jam berakhir</label><input id="cfgCloses" type="text" placeholder="2026-10-25 19:00"><small>Countdown global mengarah ke waktu tutup ini, bukan timer yang dimulai ulang saat pemain membuka situs.</small></div>
-    <div class="editor-field"><label for="cfgDuration">Durasi per pemain (opsional, menit; 0 = tidak ada)</label><input id="cfgDuration" type="number" min="0" max="10080" step="1"></div>
+
+   <section class="editor-card">
+    <h3>04 · SCHEDULE & PUBLISH</h3>
+    <div class="editor-field"><label for="cfgOpens">Tanggal & jam mulai</label><input id="cfgOpens" type="text" placeholder="2026-10-20 19:00"><small>Format YYYY-MM-DD HH:mm (WIB).</small></div>
+    <div class="editor-field"><label for="cfgCloses">Tanggal & jam berakhir</label><input id="cfgCloses" type="text" placeholder="2026-10-25 19:00"><small>Waktu penutupan otomatis.</small></div>
+    <div class="editor-field"><label for="cfgDuration">Durasi per pemain (menit; 0 = bebas)</label><input id="cfgDuration" type="number" min="0" max="10080" step="1"></div>
     <div class="editor-field"><label for="cfgLineColor">Warna garis default</label><input id="cfgLineColor" type="color"></div>
    </section>
-   <section class="editor-card"><h3>03 · STAR MAP EDITOR</h3>
-    <p class="editor-help">Klik bintang untuk memilih lalu geser di peta untuk memindahkannya. Klik area kosong untuk menambah bintang saat mode tambah aktif.</p>
-    <div class="editor-map"><svg id="editorMap" viewBox="0 0 1000 562.5" preserveAspectRatio="none"></svg></div>
-    <div class="editor-actions"><button class="btn small" id="addStarBtn">＋ Add Star</button><button class="btn small" id="deleteStarBtn">Delete Selected</button><button class="btn small" id="cancelAddStarBtn">Cancel Add</button></div>
-    <div class="editor-field" style="margin-top:12px"><label for="cfgStarColor">Selected star colour</label><input id="cfgStarColor" type="color" value="#eeeaff"></div>
-    <div class="editor-field"><label for="cfgStarSize">Selected star size</label><input id="cfgStarSize" type="range" min="2" max="10" step="0.5" value="4.2"></div>
-    <div class="star-list" id="starList"></div>
-   </section>
-   <section class="editor-card"><h3>04 · ANSWER EDITOR</h3>
-    <p class="editor-help">Aktifkan mode jawaban lalu klik dua bintang untuk menggambar garis jawaban. Simpan setiap pola yang diterima. Pola jawaban tidak ditampilkan di halaman pemain.</p>
-    <div class="editor-actions"><button class="btn small" id="answerModeBtn">Answer Mode: Off</button><button class="btn small" id="savePatternBtn">Save Current Pattern</button><button class="btn small" id="clearAnswerBtn">Clear Current Pattern</button></div>
-    <div class="editor-field" style="margin-top:12px"><label for="cfgPatternSelect">Saved accepted patterns</label><select id="cfgPatternSelect"></select></div>
-    <div class="editor-actions"><button class="btn small" id="deletePatternBtn">Delete Selected Pattern</button><button class="btn small" id="loadPatternBtn">Load Pattern to Edit</button></div>
-    <div class="editor-status" id="answerStatus"></div>
-   </section>
   </div>
-  <div class="editor-actions"><button class="btn primary" id="saveDraftBtn">Save Draft</button><button class="btn" id="exportPlayerBtn">Export Player HTML</button><button class="btn" id="exportConfigBtn">Export Config JSON</button><button class="btn" id="importConfigBtn">Import Config JSON</button><input id="importConfigFile" type="file" accept="application/json,.json" hidden><button class="btn" id="resetConfigBtn">Reset Demo</button></div>
+
+  <div class="editor-actions" style="margin-top:18px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px">
+    <button class="btn primary" id="saveDraftBtn">Save Draft</button>
+    <button class="btn" id="exportConfigBtn">Export Config JSON</button>
+    <button class="btn" id="exportPlayerBtn">Export Player HTML</button>
+    <button class="btn" id="importConfigBtn">Import Config JSON</button>
+    <input id="importConfigFile" type="file" accept="application/json,.json" hidden>
+    <button class="btn" id="resetConfigBtn">Reset Demo</button>
+  </div>
   <div class="editor-status" id="editorStatus" aria-live="polite"></div>
  </div>
 </div>
@@ -281,9 +295,6 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 </div>
 
 <script>
-/* =========================================================
-   GAME SETTINGS — adjust these values before publishing.
-========================================================= */
 const DEFAULT_CONFIG = {
   siteTitle: "CONSTELLATION CONNECT",
   welcomeText: "A new patch of the night sky awaits your discovery. Find the pattern among the stars and connect them in the order you believe is right.",
@@ -296,6 +307,7 @@ const DEFAULT_CONFIG = {
   closesAt: "",
   durationMinutes: 0,
   lineColor: "#d9d2ff",
+  guideImage: "",
   stars: [
     {id:"s1",x:210,y:190,r:4.2,c:"#eeeaff"},{id:"s2",x:335,y:245,r:5.2,c:"#c7c0ff"},
     {id:"s3",x:460,y:300,r:3.7,c:"#eeeaff"},{id:"s4",x:585,y:265,r:4.6,c:"#eeeaff"},
@@ -315,7 +327,7 @@ let config = loadDraftConfig() || structuredClone(DEFAULT_CONFIG);
 function loadDraftConfig(){try{const v=localStorage.getItem(STORAGE_KEY);return v?JSON.parse(v):null}catch(e){return null}}
 function persistDraft(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(config));return true}catch(e){return false}}
 
-// Auto-fetch external json config if hosted on GitHub Pages
+// Auto-fetch external json config
 (async function fetchExternalConfig() {
   try {
     const res = await fetch("cobajosjis.json?v=" + Date.now());
@@ -490,7 +502,7 @@ function showFeedback(title,message,allowRetry){
     feedbackControls.appendChild(retry);
   }else{
     const done=document.createElement("button");done.className="btn";done.textContent="Return to the Sky";
-    done.addEventListener("click",()=>{resultModal.classList.remove("active");if(title==="Pattern Confirmed")stopAmbience();});
+    done.addEventListener("click",()=>{resultModal.classList.remove("active");if(title.includes("PATTERN CONFIRMED"))stopAmbience();});
     feedbackControls.appendChild(done);
   }
   resultModal.classList.add("active");
@@ -559,14 +571,15 @@ const editorSvg=document.getElementById("editorMap");
 const editorStatus=document.getElementById("editorStatus");
 const answerStatus=document.getElementById("answerStatus");
 const isEditorRoute=new URLSearchParams(location.search).get("editor")==="1";
+
 function applyConfigToPage(){
   document.getElementById("siteTitle").textContent=config.siteTitle||"CONSTELLATION CONNECT";
-  document.getElementById("welcomeText").textContent=config.welcomeText||"";
+  document.getElementById("welcomeText").innerHTML=(config.welcomeText||"").replace(/\n/g,"<br>");
   document.getElementById("gameHeading").textContent=config.title;
   document.getElementById("gameSubheading").textContent=config.subheading;
   document.getElementById("mapLabel").textContent=config.mapLabel;
-  document.getElementById("skyUpdateText").textContent=config.skyUpdate;
-  document.getElementById("fieldNotesText").textContent=config.fieldNotes;
+  document.getElementById("skyUpdateText").innerHTML=(config.skyUpdate||"").replace(/\n/g,"<br>");
+  document.getElementById("fieldNotesText").innerHTML=(config.fieldNotes||"").replace(/\n/g,"<br>");
   lineColor=config.lineColor||"#d9d2ff";
   document.querySelectorAll(".swatch").forEach(b=>b.classList.toggle("active",b.dataset.color===lineColor));
   stars=config.stars;
@@ -574,7 +587,8 @@ function applyConfigToPage(){
 }
 function editorField(id){return document.getElementById(id)}
 function fillEditorFields(){
-  editorField("cfgSiteTitle").value=config.siteTitle||"CONSTELLATION CONNECT";editorField("cfgWelcomeText").value=config.welcomeText||"";
+  editorField("cfgSiteTitle").value=config.siteTitle||"CONSTELLATION CONNECT";
+  editorField("cfgWelcomeText").value=config.welcomeText||"";
   editorField("cfgTitle").value=config.title;editorField("cfgSubheading").value=config.subheading;
   editorField("cfgMapLabel").value=config.mapLabel;editorField("cfgSkyUpdate").value=config.skyUpdate;
   editorField("cfgFieldNotes").value=config.fieldNotes;editorField("cfgOpens").value=config.opensAt||"";
@@ -583,7 +597,8 @@ function fillEditorFields(){
   renderEditorMap();renderStarList();renderPatternSelect();
 }
 function readEditorFields(){
-  config.siteTitle=editorField("cfgSiteTitle").value.trim()||"CONSTELLATION CONNECT";config.welcomeText=editorField("cfgWelcomeText").value;
+  config.siteTitle=editorField("cfgSiteTitle").value.trim()||"CONSTELLATION CONNECT";
+  config.welcomeText=editorField("cfgWelcomeText").value;
   config.title=editorField("cfgTitle").value.trim()||"THE UNCHARTED SKY";
   config.subheading=editorField("cfgSubheading").value.trim();config.mapLabel=editorField("cfgMapLabel").value.trim();
   config.skyUpdate=editorField("cfgSkyUpdate").value;config.fieldNotes=editorField("cfgFieldNotes").value;
@@ -592,8 +607,19 @@ function readEditorFields(){
   config.lineColor=editorField("cfgLineColor").value||"#d9d2ff";
   config.stars=stars;
 }
+
 function renderEditorMap(){
   editorSvg.innerHTML="";
+  if (config.guideImage) {
+    const guideImg = el("image", {
+      href: config.guideImage,
+      x: 0, y: 0,
+      width: 1000, height: 562.5,
+      preserveAspectRatio: "none",
+      opacity: 0.38
+    });
+    editorSvg.appendChild(guideImg);
+  }
   for(let i=0;i<55;i++){const x=(i*137.51+23)%1000,y=(i*79.37+17)%562.5;editorSvg.appendChild(el("circle",{cx:x,cy:y,r:i%5===0?1.1:.55,fill:"#fff",opacity:.2}))}
   if(answerMode){answerEdges.forEach(e=>{const a=starById(e[0]),b=starById(e[1]);if(a&&b)editorSvg.appendChild(el("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:"#c7c0ff","stroke-width":2.4,opacity:.85}))})}
   stars.forEach(s=>{
@@ -605,27 +631,47 @@ function renderEditorMap(){
     editorSvg.appendChild(g);
   });
 }
+
 function svgCoords(ev){const r=editorSvg.getBoundingClientRect();return {x:Math.max(12,Math.min(988,(ev.clientX-r.left)/r.width*1000)),y:Math.max(12,Math.min(550,(ev.clientY-r.top)/r.height*562.5))}}
 editorSvg.addEventListener("pointermove",ev=>{if(!dragStarId||answerMode)return;const p=svgCoords(ev),s=starById(dragStarId);if(s){s.x=Math.round(p.x);s.y=Math.round(p.y);renderEditorMap()}});
 editorSvg.addEventListener("pointerup",()=>{if(dragStarId){dragStarId=null;persistDraft()}});
 editorSvg.addEventListener("pointercancel",()=>{dragStarId=null});
 editorSvg.addEventListener("click",ev=>{if(!addingStar||answerMode||ev.target.closest("[data-star-id]"))return;const p=svgCoords(ev);const n=stars.length+1;let id="s"+n;while(starById(id))id="s"+(Number(id.slice(1))+1);stars.push({id,x:Math.round(p.x),y:Math.round(p.y),r:3.8,c:"#eeeaff"});config.stars=stars;selectedEditorStar=id;addingStar=false;editorField("addStarBtn").textContent="＋ Add Star";renderEditorMap();renderStarList();persistDraft()});
-function renderStarList(){const list=editorField("starList");list.innerHTML="";stars.forEach(s=>{const row=document.createElement("div");row.textContent=`${s.id} · x ${Math.round(s.x)}, y ${Math.round(s.y)} · size ${s.r}`;const b=document.createElement("button");b.textContent="Select";b.addEventListener("click",()=>selectEditorStar(s.id));row.appendChild(b);list.appendChild(row)})}
+
+function renderStarList(){const list=editorField("starList");list.innerHTML="";stars.forEach(s=>{const row=document.createElement("div");row.textContent=`${s.id} · x ${Math.round(s.x)}, y ${Math.round(s.y)}`;const b=document.createElement("button");b.textContent="Select";b.addEventListener("click",()=>selectEditorStar(s.id));row.appendChild(b);list.appendChild(row)})}
 function selectEditorStar(id){selectedEditorStar=id;const s=starById(id);if(s){editorField("cfgStarColor").value=s.c;editorField("cfgStarSize").value=s.r}renderEditorMap();renderStarList()}
+
 editorField("cfgStarColor").addEventListener("input",()=>{const s=starById(selectedEditorStar);if(s){s.c=editorField("cfgStarColor").value;renderEditorMap();persistDraft()}});
 editorField("cfgStarSize").addEventListener("input",()=>{const s=starById(selectedEditorStar);if(s){s.r=Number(editorField("cfgStarSize").value);renderEditorMap();renderStarList();persistDraft()}});
 editorField("addStarBtn").addEventListener("click",()=>{addingStar=!addingStar;editorField("addStarBtn").textContent=addingStar?"Click Map to Add Star":"＋ Add Star";editorStatus.textContent=addingStar?"Click an empty area in the map to place a new star.":""});
 editorField("cancelAddStarBtn").addEventListener("click",()=>{addingStar=false;editorField("addStarBtn").textContent="＋ Add Star"});
-editorField("deleteStarBtn").addEventListener("click",()=>{if(!selectedEditorStar){editorStatus.textContent="Select a star first.";return}const id=selectedEditorStar;stars=stars.filter(s=>s.id!==id);config.stars=stars;config.acceptedPatterns=config.acceptedPatterns.map(p=>p.filter(e=>!e.includes(id))).filter(p=>p.length);answerEdges=answerEdges.filter(e=>!e.includes(id));selectedEditorStar=null;renderEditorMap();renderStarList();renderPatternSelect();persistDraft();editorStatus.textContent=`Deleted ${id} and removed it from saved answer patterns.`});
+editorField("deleteStarBtn").addEventListener("click",()=>{if(!selectedEditorStar){editorStatus.textContent="Select a star first.";return}const id=selectedEditorStar;stars=stars.filter(s=>s.id!==id);config.stars=stars;config.acceptedPatterns=config.acceptedPatterns.map(p=>p.filter(e=>!e.includes(id))).filter(p=>p.length);answerEdges=answerEdges.filter(e=>!e.includes(id));selectedEditorStar=null;renderEditorMap();renderStarList();renderPatternSelect();persistDraft();editorStatus.textContent=`Deleted ${id}.`});
+
+editorField("cfgGuideFile").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      config.guideImage = evt.target.result;
+      renderEditorMap();
+      persistDraft();
+      editorStatus.textContent = "Gambar guide berhasil dimuat.";
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
 function handleAnswerStar(id){if(!answerMode)return;if(!selectedAnswerStar){selectedAnswerStar=id;answerStatus.textContent=`Selected ${id}. Choose another star.`;return}if(selectedAnswerStar===id){selectedAnswerStar=null;return}const pair=[selectedAnswerStar,id].sort();if(!answerEdges.some(e=>e[0]===pair[0]&&e[1]===pair[1]))answerEdges.push(pair);selectedAnswerStar=null;answerStatus.textContent=`Current pattern: ${answerEdges.length} line(s).`;renderEditorMap()}
 let selectedAnswerStar=null;
 editorField("answerModeBtn").addEventListener("click",()=>{answerMode=!answerMode;selectedAnswerStar=null;editorField("answerModeBtn").textContent="Answer Mode: "+(answerMode?"On":"Off");renderEditorMap();answerStatus.textContent=answerMode?"Click two stars at a time to add answer lines.":"Answer mode is off."});
 editorField("clearAnswerBtn").addEventListener("click",()=>{answerEdges=[];selectedAnswerStar=null;renderEditorMap();answerStatus.textContent="Current answer pattern cleared."});
-editorField("savePatternBtn").addEventListener("click",()=>{if(!answerEdges.length){answerStatus.textContent="Draw at least one answer line first.";return}config.acceptedPatterns.push(answerEdges.map(e=>[...e]));activePatternIndex=config.acceptedPatterns.length-1;renderPatternSelect();persistDraft();answerStatus.textContent=`Saved pattern ${activePatternIndex+1}. Total accepted patterns: ${config.acceptedPatterns.length}.`});
+editorField("savePatternBtn").addEventListener("click",()=>{if(!answerEdges.length){answerStatus.textContent="Draw at least one answer line first.";return}config.acceptedPatterns.push(answerEdges.map(e=>[...e]));activePatternIndex=config.acceptedPatterns.length-1;renderPatternSelect();persistDraft();answerStatus.textContent=`Saved pattern ${activePatternIndex+1}.`});
+
 function renderPatternSelect(){const sel=editorField("cfgPatternSelect");sel.innerHTML="";config.acceptedPatterns.forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=`Pattern ${i+1} · ${p.length} lines`;sel.appendChild(o)});if(config.acceptedPatterns.length){activePatternIndex=Math.min(activePatternIndex,config.acceptedPatterns.length-1);sel.value=String(activePatternIndex)}}
 editorField("cfgPatternSelect").addEventListener("change",()=>activePatternIndex=Number(editorField("cfgPatternSelect").value));
 editorField("deletePatternBtn").addEventListener("click",()=>{if(!config.acceptedPatterns.length)return;config.acceptedPatterns.splice(activePatternIndex,1);activePatternIndex=Math.max(0,activePatternIndex-1);renderPatternSelect();persistDraft();answerStatus.textContent="Selected answer pattern deleted."});
-editorField("loadPatternBtn").addEventListener("click",()=>{answerEdges=(config.acceptedPatterns[activePatternIndex]||[]).map(e=>[...e]);answerMode=true;editorField("answerModeBtn").textContent="Answer Mode: On";renderEditorMap();answerStatus.textContent="Loaded pattern for editing. Save as a new accepted pattern when finished."});
+editorField("loadPatternBtn").addEventListener("click",()=>{answerEdges=(config.acceptedPatterns[activePatternIndex]||[]).map(e=>[...e]);answerMode=true;editorField("answerModeBtn").textContent="Answer Mode: On";renderEditorMap();answerStatus.textContent="Loaded pattern for editing."});
+
 function downloadBlob(name,blob){const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function serialisableConfig(){return JSON.stringify(config,null,2)}
 function makeExportHTML(){
@@ -637,30 +683,24 @@ function makeExportHTML(){
   html=html.replace('id="adminEntry" style="display: flex;"','id="adminEntry"');
   html=html.replace('class="modal-backdrop active" id="resultModal"','class="modal-backdrop" id="resultModal"');
   html=html.replace('class="feedback panel active" id="feedback"','class="feedback panel" id="feedback"');
-  html=html.replace('class="feedback panel active"','class="feedback panel"');
-  html=html.replace('class="game active" id="game"','class="game" id="game"');
-  html=html.replace('class="welcome hidden" id="welcome"','class="welcome" id="welcome"');
-  html=html.replace('class="welcome active" id="welcome"','class="welcome" id="welcome"');
-  html=html.replace(/<h3 id="feedbackTitle">[\s\S]*?<\/h3>/,'<h3 id="feedbackTitle">Observation Received<\/h3>');
-  html=html.replace(/<p id="feedbackText">[\s\S]*?<\/p>/,'<p id="feedbackText"><\/p>');
-  html=html.replace(/<div class="stamp" id="feedbackStamp">[\s\S]*?<\/div>/,'<div class="stamp" id="feedbackStamp"><\/div>');
-  html=html.replace(/<div class="controls" id="feedbackControls">[\s\S]*?<\/div>/,'<div class="controls" id="feedbackControls"><\/div>');
   return "<!DOCTYPE html>\n"+html;
 }
-function saveDraft(){readEditorFields();const ok=persistDraft();applyConfigToPage();drawMap();editorStatus.textContent=ok?"Draft saved in this browser. Export Player HTML to publish for all players.":"Could not save local draft in this browser.";renderEditorMap();renderStarList();renderPatternSelect()}
+
+function saveDraft(){readEditorFields();const ok=persistDraft();applyConfigToPage();drawMap();editorStatus.textContent=ok?"Draft saved in this browser. Export Config JSON to publish.":"Could not save local draft.";renderEditorMap();renderStarList();renderPatternSelect()}
 editorField("saveDraftBtn").addEventListener("click",saveDraft);
-editorField("exportPlayerBtn").addEventListener("click",()=>{readEditorFields();const blob=new Blob([makeExportHTML()],{type:"text/html;charset=utf-8"});downloadBlob("index.html",blob);editorStatus.textContent="Player HTML exported. Upload this file to your GitHub repository as index.html to publish the new setup."});
-editorField("exportConfigBtn").addEventListener("click",()=>{readEditorFields();downloadBlob("constellation-game-config.json",new Blob([serialisableConfig()],{type:"application/json;charset=utf-8"}));editorStatus.textContent="Configuration exported."});
+editorField("exportPlayerBtn").addEventListener("click",()=>{readEditorFields();const blob=new Blob([makeExportHTML()],{type:"text/html;charset=utf-8"});downloadBlob("index.html",blob);editorStatus.textContent="Player HTML exported."});
+editorField("exportConfigBtn").addEventListener("click",()=>{readEditorFields();downloadBlob("cobajosjis.json",new Blob([serialisableConfig()],{type:"application/json;charset=utf-8"}));editorStatus.textContent="Configuration exported."});
 editorField("importConfigBtn").addEventListener("click",()=>editorField("importConfigFile").click());
-editorField("importConfigFile").addEventListener("change",async ev=>{const f=ev.target.files&&ev.target.files[0];if(!f)return;try{const v=JSON.parse(await f.text());if(!Array.isArray(v.stars)||!Array.isArray(v.acceptedPatterns))throw new Error("Invalid config");config={...structuredClone(DEFAULT_CONFIG),...v};stars=config.stars;fillEditorFields();applyConfigToPage();persistDraft();editorStatus.textContent="Config imported. Review it, then export Player HTML."}catch(e){editorStatus.textContent="Could not import that config. Please choose a valid exported config JSON."}ev.target.value=""});
-editorField("resetConfigBtn").addEventListener("click",()=>{if(!confirm("Reset all editor changes to the demo setup?"))return;config=structuredClone(DEFAULT_CONFIG);stars=config.stars;answerEdges=[];selectedEditorStar=null;fillEditorFields();applyConfigToPage();persistDraft();editorStatus.textContent="Demo setup restored."});
+editorField("importConfigFile").addEventListener("change",async ev=>{const f=ev.target.files&&ev.target.files[0];if(!f)return;try{const v=JSON.parse(await f.text());if(!Array.isArray(v.stars)||!Array.isArray(v.acceptedPatterns))throw new Error("Invalid config");config={...structuredClone(DEFAULT_CONFIG),...v};stars=config.stars;fillEditorFields();applyConfigToPage();persistDraft();editorStatus.textContent="Config imported."}catch(e){editorStatus.textContent="Could not import config."}ev.target.value=""});
+editorField("resetConfigBtn").addEventListener("click",()=>{if(!confirm("Reset all editor changes?"))return;config=structuredClone(DEFAULT_CONFIG);stars=config.stars;answerEdges=[];selectedEditorStar=null;fillEditorFields();applyConfigToPage();persistDraft();editorStatus.textContent="Demo setup restored."});
+
 ["cfgSiteTitle","cfgWelcomeText","cfgTitle","cfgSubheading","cfgMapLabel","cfgSkyUpdate","cfgFieldNotes","cfgOpens","cfgCloses","cfgDuration","cfgLineColor"].forEach(id=>editorField(id).addEventListener("change",()=>{readEditorFields();applyConfigToPage();persistDraft()}));
 document.getElementById("openEditorBtn").addEventListener("click",()=>{fillEditorFields();editorBackdrop.classList.add("active")});
 document.getElementById("closeEditorBtn").addEventListener("click",()=>editorBackdrop.classList.remove("active"));
 editorBackdrop.addEventListener("click",ev=>{if(ev.target===editorBackdrop)editorBackdrop.classList.remove("active")});
 if(isEditorRoute){document.getElementById("adminEntry").style.display="flex";fillEditorFields();editorBackdrop.classList.add("active")}else{document.getElementById("adminEntry").style.display="none";editorBackdrop.classList.remove("active")}
-applyConfigToPage();
 
+applyConfigToPage();
 updateClock();
 setInterval(()=>{updateClock();updateCountdown();},1000);
 </script>

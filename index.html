@@ -99,7 +99,24 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 .modal ul{padding-left:18px}
 .modal .btn{margin-top:12px}
 
-/* DESAIN EDITING BARU LAPANG & LUAS */
+@media(max-width:650px){
+  .app{padding:22px 12px 28px}
+  .subtitle{font-size:12px}
+  .topline{gap:7px;font-size:8px;letter-spacing:1px}
+  .welcome{margin-top:25px;padding:25px 18px}
+  .game-meta{justify-content:center}
+  .player{width:100%;text-align:center}
+  .stats{justify-content:center}
+  .section-title h2{font-size:21px;letter-spacing:4px}
+  .map-shell{min-height:200px;aspect-ratio:16/9} /* Menjaga rasio tetap proporsional 16:9 di HP */
+  .map-label{top:13px;left:13px;font-size:8px;letter-spacing:2px}
+  .map-hint{top:13px;right:13px;font-size:8px}
+  .below{grid-template-columns:1fr}
+  .map-footer{justify-content:center}
+  .controls .btn{flex:1;min-width:100px}
+}
+
+/* EDITOR DESAIN MEWAH LAPANG & LUAS */
 .admin-entry{position:relative;z-index:4;display:flex;justify-content:center;margin:0 auto 8px}
 .editor-backdrop{position:fixed;inset:0;z-index:30;background:rgba(2,3,10,.92);display:none;overflow:auto;padding:16px}
 .editor-backdrop.active{display:block}
@@ -169,7 +186,8 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
     <div class="map-shell">
       <div class="map-label" id="mapLabel">Observation Field · 01</div>
       <div class="map-hint">SELECT TWO STARS<br>TO DRAW A LINE</div>
-      <svg id="starMap" viewBox="0 0 1000 562.5" preserveAspectRatio="none" aria-label="Interactive star map"></svg>
+      <!-- preserveAspectRatio="xMidYMid meet" MENCEGAH PETA GEPENG DI HP -->
+      <svg id="starMap" viewBox="0 0 1000 562.5" preserveAspectRatio="xMidYMid meet" aria-label="Interactive star map"></svg>
     </div>
     <div class="map-footer">
       <div class="color-picker"><span>Line colour</span>
@@ -327,7 +345,7 @@ let config = loadDraftConfig() || structuredClone(DEFAULT_CONFIG);
 function loadDraftConfig(){try{const v=localStorage.getItem(STORAGE_KEY);return v?JSON.parse(v):null}catch(e){return null}}
 function persistDraft(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(config));return true}catch(e){return false}}
 
-// Auto-fetch external json config
+// AUTO-FETCH MENGGUNAKAN FILE COBAJOSJIS.JSON KAMU
 (async function fetchExternalConfig() {
   try {
     const res = await fetch("cobajosjis.json?v=" + Date.now());
@@ -521,9 +539,9 @@ function submit(){
   submitted=true;
   if(correct){
     stopAmbience();
-    showFeedback("₊⊹PATTERN CONFIRMED₊⊹","The stars align as expected. Keep this record to mark your completed observation.",false);
+    showFeedback("⊹₊.PATTERN CONFIRMED.₊⊹","The stars align as expected. Keep this record to mark your completed observation.",false);
   }else{
-    showFeedback("❓PATTERN UNCONFIRMED❓","The stars do not align as expected. Your lines are still here, so make your adjustments and try again.",true);
+    showFeedback("⸮⸮PATTERN UNCONFIRMED??","The stars do not align as expected. Your lines are still here, so make your adjustments and try again.",true);
   }
 }
 function setLineColor(color){

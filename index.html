@@ -33,7 +33,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--night);color:var(--ink)}
 
-/* Font standar UI diganti dadi Plus Jakarta Sans */
+/* Font standar UI Plus Jakarta Sans */
 body{font-family:'Plus Jakarta Sans', sans-serif;overflow-x:hidden}
 body::before {
   content: "";
@@ -53,14 +53,14 @@ button:focus-visible,input:focus-visible{outline:1px solid #c6c0ff;outline-offse
 .app{position:relative;z-index:1;min-height:100vh;padding:28px 24px 36px;background:radial-gradient(circle at center,rgba(93,82,155,.16),transparent 48%),#070914}
 header{text-align:center;padding:8px 0 0}
 
-/* Kicker (ASTRARIUM OBSERVATORY) tetep Cosmic & ukuran 18px */
+/* Kicker (ASTRARIUM OBSERVATORY) Cosmic 18px */
 .kicker{font-family:'Cosmic',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:18px;color:var(--muted)}
 
-/* Eyebrow Welcome Observer digedekno 2x dadi 18px */
+/* Eyebrow Welcome Observer 18px */
 .eyebrow{font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:18px;color:var(--muted)}
 .micro{font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:9px;color:var(--muted)}
 
-/* Jarak antarah judul lan subtitle dipotong 1/4 (margin-bottom dadi 2px) */
+/* Jarak antarah judul lan subtitle dipotong 1/4 */
 h1 {
   font-family: 'Variable Star', Georgia, serif;
   font-weight: normal;
@@ -80,7 +80,7 @@ h1 {
 .name-wrap{max-width:340px;margin:0 auto;text-align:left}
 label{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
 
-/* Kolom Enter Name tetep Cosmic, dilonggarne letter-spacing-e */
+/* Input Name Cosmic & dilonggarne */
 input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:13px 14px;color:var(--ink);font-family:'Cosmic',sans-serif;font-size:13px;letter-spacing:1.5px}
 
 .btn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.055);padding:11px 16px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;transition:background .2s,border-color .2s,transform .2s}
@@ -94,7 +94,7 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 .game.active{display:block}
 .game-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 14px}
 
-/* Label Observer ing kaca game tetep Cosmic */
+/* Label Observer Cosmic */
 .player{font-size:13px;letter-spacing:1.5px;font-family:'Cosmic',sans-serif}
 .player span{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;opacity:.85}
 .stats{display:flex;gap:8px;flex-wrap:wrap}
@@ -108,10 +108,8 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 .map-shell::before{width:72%;height:72%;left:14%;top:14%;transform:rotate(18deg)}
 .map-shell::after{width:48%;height:48%;left:26%;top:26%;transform:rotate(-25deg)}
 
-.map-label{position:absolute;z-index:2;top:19px;left:22px;font:9px 'Plus Jakarta Sans',sans-serif;letter-spacing:3px;text-transform:uppercase;opacity:.35}
-
-/* Kode AAC ST 01 20 26 10 tetep Cosmic */
-.map-code{position:absolute;z-index:2;bottom:19px;left:22px;font:10px 'Cosmic',sans-serif;letter-spacing:2px;opacity:.4}
+/* Map Label Nampilne data saka JSON (Cosmic) */
+.map-label{position:absolute;z-index:2;top:19px;left:22px;font:11px 'Cosmic',sans-serif;letter-spacing:2px;text-transform:uppercase;opacity:.4}
 
 .map-hint{position:absolute;z-index:2;right:18px;top:18px;font:9px 'Plus Jakarta Sans',sans-serif;letter-spacing:1px;color:rgba(238,234,255,.35);text-align:right}
 #starMap{position:absolute;inset:0;width:100%;height:100%;z-index:3;touch-action:manipulation}
@@ -124,19 +122,19 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 .swatch{width:19px;height:19px;border-radius:50%;border:1px solid rgba(255,255,255,.25);padding:0;position:relative}
 .swatch.active::after{content:"";position:absolute;inset:-4px;border:1px solid rgba(255,255,255,.65);border-radius:50%}
 
-/* Warna Garis Neon Menyala */
+/* URUTAN WARNA BARU: Putih -> Biru Tuwa -> Ijo -> Abang -> Kuning */
 .swatch[data-color="#ffffff"]{background:#ffffff;box-shadow:0 0 8px #ffffff}
+.swatch[data-color="#0055ff"]{background:#0055ff;box-shadow:0 0 8px #0055ff}
 .swatch[data-color="#00ff66"]{background:#00ff66;box-shadow:0 0 8px #00ff66}
-.swatch[data-color="#ffe600"]{background:#ffe600;box-shadow:0 0 8px #ffe600}
 .swatch[data-color="#ff2a6d"]{background:#ff2a6d;box-shadow:0 0 8px #ff2a6d}
-.swatch[data-color="#00f0ff"]{background:#00f0ff;box-shadow:0 0 8px #00f0ff}
+.swatch[data-color="#ffe600"]{background:#ffe600;box-shadow:0 0 8px #ffe600}
 
 .controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 0}
 .below{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
 .info-card{padding:16px 18px}
 .info-card h3{font-family:'Plus Jakarta Sans',sans-serif;font-weight:normal;font-size:13px;letter-spacing:1.4px;margin:0 0 8px}
 
-/* Isi Hint & Sky Updates diganti Cosmic lan dilonggarne letter-spacing-e */
+/* Isi Hint & Sky Updates Cosmic */
 .info-card p{font:13px/1.8 'Cosmic',sans-serif;letter-spacing:1.2px;color:rgba(238,234,255,.75);margin:0;white-space:pre-line}
 
 .feedback{display:none;margin:0;padding:8px 0;text-align:center}
@@ -245,17 +243,16 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
     </div>
     <div class="map-shell">
       <div class="map-label" id="mapLabel">Observation Field · 01</div>
-      <div class="map-code">AAC ST 01 20 26 10</div>
       <div class="map-hint">SELECT TWO STARS<br>TO DRAW A LINE</div>
       <svg id="starMap" viewBox="0 0 1000 562.5" preserveAspectRatio="xMidYMid meet" aria-label="Interactive star map"></svg>
     </div>
     <div class="map-footer">
       <div class="color-picker"><span>Line colour</span>
         <button class="swatch active" data-color="#ffffff" aria-label="White line"></button>
+        <button class="swatch" data-color="#0055ff" aria-label="Dark Blue line"></button>
         <button class="swatch" data-color="#00ff66" aria-label="Neon Green line"></button>
-        <button class="swatch" data-color="#ffe600" aria-label="Neon Yellow line"></button>
         <button class="swatch" data-color="#ff2a6d" aria-label="Neon Red line"></button>
-        <button class="swatch" data-color="#00f0ff" aria-label="Neon Blue line"></button>
+        <button class="swatch" data-color="#ffe600" aria-label="Neon Yellow line"></button>
       </div>
       <button class="btn small" id="helpBtn">How to Play</button>
     </div>

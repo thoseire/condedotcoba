@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Stellar Trace</title>
 
-<!-- Import Google Fonts: Cormorant Garamond & Cinzel -->
+<!-- Import Google Fonts: Plus Jakarta Sans, Cormorant Garamond & Cinzel -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 @font-face {
@@ -32,7 +32,9 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--night);color:var(--ink)}
-body{font-family:'Cormorant Garamond', Georgia, serif;overflow-x:hidden}
+
+/* Font standar UI diganti dadi Plus Jakarta Sans */
+body{font-family:'Plus Jakarta Sans', sans-serif;overflow-x:hidden}
 body::before {
   content: "";
   position: fixed;
@@ -51,67 +53,92 @@ button:focus-visible,input:focus-visible{outline:1px solid #c6c0ff;outline-offse
 .app{position:relative;z-index:1;min-height:100vh;padding:28px 24px 36px;background:radial-gradient(circle at center,rgba(93,82,155,.16),transparent 48%),#070914}
 header{text-align:center;padding:8px 0 0}
 
-/* Kicker diperbesar 2x (18px) & menggunakan font Cosmic */
+/* Kicker (ASTRARIUM OBSERVATORY) tetep Cosmic & ukuran 18px */
 .kicker{font-family:'Cosmic',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:18px;color:var(--muted)}
-.eyebrow,.micro{font-family:'Cosmic',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:9px;color:var(--muted)}
 
+/* Eyebrow Welcome Observer digedekno 2x dadi 18px */
+.eyebrow{font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:18px;color:var(--muted)}
+.micro{font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:9px;color:var(--muted)}
+
+/* Jarak antarah judul lan subtitle dipotong 1/4 (margin-bottom dadi 2px) */
 h1 {
   font-family: 'Variable Star', Georgia, serif;
   font-weight: normal;
-  font-size: clamp(29px, 5vw, 52px);
-  letter-spacing: clamp(3px, .7vw, 8px);
-  line-height: 1.12;
-  margin: 10px 0 8px;
+  font-size: clamp(26px, 4vw, 42px);
+  letter-spacing: 2px;
+  line-height: 1.15;
+  margin: 10px 0 2px;
+  word-spacing: -2px;
 }
-.subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;opacity:.75}
-.topline{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:23px auto 18px;font-family:'Cosmic',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--muted)}
+.subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;opacity:.75;margin-top:0}
+.topline{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:23px auto 18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--muted)}
 .pip{width:4px;height:4px;border-radius:50%;background:#b7b0e8;opacity:.7}
 .panel{border:1px solid var(--line);background:var(--panel);border-radius:14px;backdrop-filter:blur(8px)}
 .welcome{width:min(560px,100%);margin:36px auto 0;padding:clamp(24px,5vw,44px);text-align:center}
 .welcome .sigil{font-size:28px;color:#c7c0ff;opacity:.8;margin-bottom:14px}
 .welcome p{font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.8;opacity:.8;max-width:390px;margin:16px auto 24px;white-space:pre-line}
 .name-wrap{max-width:340px;margin:0 auto;text-align:left}
-label{display:block;font-family:'Cosmic',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
-input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:13px 14px;color:var(--ink);font-family:'Cosmic',sans-serif;font-size:13px}
-.btn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.055);padding:11px 16px;border-radius:999px;font-family:'Cosmic',sans-serif;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;transition:background .2s,border-color .2s,transform .2s}
+label{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+
+/* Kolom Enter Name tetep Cosmic, dilonggarne letter-spacing-e */
+input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:13px 14px;color:var(--ink);font-family:'Cosmic',sans-serif;font-size:13px;letter-spacing:1.5px}
+
+.btn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.055);padding:11px 16px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;transition:background .2s,border-color .2s,transform .2s}
 .btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.32);transform:translateY(-1px)}
 .btn.primary{background:rgba(170,164,216,.14);border-color:rgba(170,164,216,.48)}
 .btn.small{padding:8px 12px;font-size:8px}
 .btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
 .welcome .primary{margin-top:16px;min-width:190px}
-.fineprint{font:10px/1.6 'Cosmic',sans-serif;letter-spacing:.6px;color:rgba(238,234,255,.35);margin-top:22px}
+.fineprint{font:10px/1.6 'Plus Jakarta Sans',sans-serif;letter-spacing:.6px;color:rgba(238,234,255,.35);margin-top:22px}
 .game{display:none;width:min(1100px,100%);margin:0 auto}
 .game.active{display:block}
 .game-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 14px}
-.player{font-size:13px;letter-spacing:1px;font-family:'Cosmic',sans-serif}
+
+/* Label Observer ing kaca game tetep Cosmic */
+.player{font-size:13px;letter-spacing:1.5px;font-family:'Cosmic',sans-serif}
 .player span{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;opacity:.85}
 .stats{display:flex;gap:8px;flex-wrap:wrap}
-.stat{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025);border-radius:999px;padding:8px 12px;font-family:'Cosmic',sans-serif;font-size:9px;letter-spacing:1px;color:rgba(238,234,255,.72)}
+.stat{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025);border-radius:999px;padding:8px 12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;letter-spacing:1px;color:rgba(238,234,255,.72)}
 .stat strong{font-weight:normal;color:#fff;margin-left:5px}
 .section-title{text-align:center;margin:20px 0 14px}
 .section-title h2{font-family:'Cinzel',serif;font-size:25px;font-weight:normal;letter-spacing:5px;margin:0}
-.section-title p{font:9px 'Cosmic',sans-serif;letter-spacing:2px;text-transform:uppercase;opacity:.38;margin:8px 0 0}
+.section-title p{font:9px 'Plus Jakarta Sans',sans-serif;letter-spacing:2px;text-transform:uppercase;opacity:.38;margin:8px 0 0}
 .map-shell{position:relative;width:100%;aspect-ratio:16/9;min-height:260px;border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at center,rgba(100,90,160,.12),transparent 62%)}
 .map-shell::before,.map-shell::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.035);border-radius:50%;pointer-events:none}
 .map-shell::before{width:72%;height:72%;left:14%;top:14%;transform:rotate(18deg)}
 .map-shell::after{width:48%;height:48%;left:26%;top:26%;transform:rotate(-25deg)}
-.map-label{position:absolute;z-index:2;top:19px;left:22px;font:9px 'Cosmic',sans-serif;letter-spacing:3px;text-transform:uppercase;opacity:.35}
-.map-hint{position:absolute;z-index:2;right:18px;top:18px;font:9px 'Cosmic',sans-serif;letter-spacing:1px;color:rgba(238,234,255,.35);text-align:right}
+
+.map-label{position:absolute;z-index:2;top:19px;left:22px;font:9px 'Plus Jakarta Sans',sans-serif;letter-spacing:3px;text-transform:uppercase;opacity:.35}
+
+/* Kode AAC ST 01 20 26 10 tetep Cosmic */
+.map-code{position:absolute;z-index:2;bottom:19px;left:22px;font:10px 'Cosmic',sans-serif;letter-spacing:2px;opacity:.4}
+
+.map-hint{position:absolute;z-index:2;right:18px;top:18px;font:9px 'Plus Jakarta Sans',sans-serif;letter-spacing:1px;color:rgba(238,234,255,.35);text-align:right}
 #starMap{position:absolute;inset:0;width:100%;height:100%;z-index:3;touch-action:manipulation}
 .star-point{cursor:pointer;transition:filter .15s}
 .star-point:hover{filter:drop-shadow(0 0 7px currentColor) drop-shadow(0 0 16px currentColor)}
 .user-line{stroke-width:1.6;stroke-linecap:round;opacity:.86;pointer-events:stroke;cursor:pointer}
 .map-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
 .color-picker{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.color-picker span{font:8px 'Cosmic',sans-serif;letter-spacing:1.5px;text-transform:uppercase;opacity:.45;margin-right:3px}
+.color-picker span{font:8px 'Plus Jakarta Sans',sans-serif;letter-spacing:1.5px;text-transform:uppercase;opacity:.45;margin-right:3px}
 .swatch{width:19px;height:19px;border-radius:50%;border:1px solid rgba(255,255,255,.25);padding:0;position:relative}
 .swatch.active::after{content:"";position:absolute;inset:-4px;border:1px solid rgba(255,255,255,.65);border-radius:50%}
-.swatch[data-color="#d9d2ff"]{background:#d9d2ff}.swatch[data-color="#78a9ff"]{background:#78a9ff}.swatch[data-color="#ffb17b"]{background:#ffb17b}.swatch[data-color="#ff7777"]{background:#ff7777}.swatch[data-color="#9ee2ce"]{background:#9ee2ce}
+
+/* Warna Garis Neon Menyala */
+.swatch[data-color="#ffffff"]{background:#ffffff;box-shadow:0 0 8px #ffffff}
+.swatch[data-color="#00ff66"]{background:#00ff66;box-shadow:0 0 8px #00ff66}
+.swatch[data-color="#ffe600"]{background:#ffe600;box-shadow:0 0 8px #ffe600}
+.swatch[data-color="#ff2a6d"]{background:#ff2a6d;box-shadow:0 0 8px #ff2a6d}
+.swatch[data-color="#00f0ff"]{background:#00f0ff;box-shadow:0 0 8px #00f0ff}
+
 .controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 0}
 .below{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
 .info-card{padding:16px 18px}
-.info-card h3{font-family:'Cosmic',sans-serif;font-weight:normal;font-size:13px;letter-spacing:1.4px;margin:0 0 8px}
-.info-card p{font:15px/1.7 'Cormorant Garamond',serif;color:rgba(238,234,255,.68);margin:0;white-space:pre-line}
+.info-card h3{font-family:'Plus Jakarta Sans',sans-serif;font-weight:normal;font-size:13px;letter-spacing:1.4px;margin:0 0 8px}
+
+/* Isi Hint & Sky Updates diganti Cosmic lan dilonggarne letter-spacing-e */
+.info-card p{font:13px/1.8 'Cosmic',sans-serif;letter-spacing:1.2px;color:rgba(238,234,255,.75);margin:0;white-space:pre-line}
+
 .feedback{display:none;margin:0;padding:8px 0;text-align:center}
 .feedback.active{display:block}
 .result-modal-content{width:min(470px,100%);text-align:center}
@@ -120,8 +147,8 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 .result-modal-content .feedback .stamp{margin-top:12px}
 .feedback h3{font-weight:normal;font-size:18px;letter-spacing:2px;margin:0 0 7px}
 .feedback p{font:15px/1.7 'Cormorant Garamond',serif;color:rgba(238,234,255,.75);margin:0 0 14px;white-space:pre-line}
-.feedback .stamp{font:9px 'Cosmic',sans-serif;letter-spacing:1px;color:rgba(238,234,255,.42)}
-.footer{text-align:center;margin-top:30px;font:9px 'Cosmic',sans-serif;letter-spacing:2px;text-transform:uppercase;color:rgba(238,234,255,.25)}
+.feedback .stamp{font:9px 'Plus Jakarta Sans',sans-serif;letter-spacing:1px;color:rgba(238,234,255,.42)}
+.footer{text-align:center;margin-top:30px;font:9px 'Plus Jakarta Sans',sans-serif;letter-spacing:2px;text-transform:uppercase;color:rgba(238,234,255,.25)}
 .modal-backdrop{position:fixed;inset:0;z-index:10;background:rgba(2,3,10,.72);display:none;align-items:center;justify-content:center;padding:20px}
 .modal-backdrop.active{display:flex}
 .modal{width:min(470px,100%);padding:26px;border:1px solid rgba(255,255,255,.15);border-radius:14px;background:linear-gradient(135deg,rgba(18,20,38,.99),rgba(9,11,21,.99));box-shadow:0 20px 70px rgba(0,0,0,.55)}
@@ -133,6 +160,7 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 @media(max-width:650px){
   .app{padding:22px 12px 28px}
   .kicker{font-size:14px}
+  .eyebrow{font-size:14px}
   .subtitle{font-size:13px}
   .topline{gap:7px;font-size:8px;letter-spacing:1px}
   .welcome{margin-top:25px;padding:25px 18px}
@@ -163,16 +191,16 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 .editor-card{padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.025);min-width:0}
 .editor-card h3{font-size:12px;font-weight:normal;letter-spacing:1.5px;margin:0 0 12px;color:#aaa4d8}
 .editor-field{margin:0 0 12px}
-.editor-field input,.editor-field textarea,.editor-field select{width:100%;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:9px;color:var(--ink);font:12px 'Cosmic',sans-serif}
+.editor-field input,.editor-field textarea,.editor-field select{width:100%;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:9px;color:var(--ink);font:12px 'Plus Jakarta Sans',sans-serif}
 .editor-field textarea{min-height:64px;resize:vertical;line-height:1.5}
-.editor-field small{display:block;font:10px/1.5 'Cosmic',sans-serif;color:var(--muted);margin-top:4px}
+.editor-field small{display:block;font:10px/1.5 'Plus Jakarta Sans',sans-serif;color:var(--muted);margin-top:4px}
 .editor-field input[type=color]{height:38px;padding:3px}
 .editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .editor-actions .btn{flex:0 0 auto}
-.editor-status{font:11px/1.6 'Cosmic',sans-serif;color:#c7c0ff;margin-top:10px;min-height:17px}
-.editor-help{font:11px/1.6 'Cosmic',sans-serif;color:var(--muted);margin:0 0 10px}
-.star-list{max-height:140px;overflow:auto;font:11px 'Cosmic',sans-serif;color:var(--muted);line-height:1.8}
-.star-list button{margin-left:8px;font:10px 'Cosmic',sans-serif;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--ink);cursor:pointer}
+.editor-status{font:11px/1.6 'Plus Jakarta Sans',sans-serif;color:#c7c0ff;margin-top:10px;min-height:17px}
+.editor-help{font:11px/1.6 'Plus Jakarta Sans',sans-serif;color:var(--muted);margin:0 0 10px}
+.star-list{max-height:140px;overflow:auto;font:11px 'Plus Jakarta Sans',sans-serif;color:var(--muted);line-height:1.8}
+.star-list button{margin-left:8px;font:10px 'Plus Jakarta Sans',sans-serif;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--ink);cursor:pointer}
 
 @media(max-width:900px){
   .editor-grid{grid-template-columns:1fr}
@@ -196,7 +224,7 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
     <p id="welcomeText">A new patch of the night sky awaits your discovery. Find the pattern among the stars and connect them in the order you believe is right.</p>
     <div class="name-wrap">
       <label for="observerName">Observer name</label>
-      <input id="observerName" type="text" maxlength="40" placeholder="Enter your name" autocomplete="name">
+      <input id="observerName" type="text" maxlength="60" placeholder="Enter your full name (vault code)" autocomplete="name">
     </div>
     <button class="btn primary" id="beginBtn">Begin Observation</button>
     <div class="fineprint">Your name will appear on the observation record.<br>All displayed times use Western Indonesia Time (WIB).</div>
@@ -217,17 +245,17 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
     </div>
     <div class="map-shell">
       <div class="map-label" id="mapLabel">Observation Field · 01</div>
+      <div class="map-code">AAC ST 01 20 26 10</div>
       <div class="map-hint">SELECT TWO STARS<br>TO DRAW A LINE</div>
-      <!-- preserveAspectRatio="xMidYMid meet" MENCEGAH PETA GEPENG DI HP -->
       <svg id="starMap" viewBox="0 0 1000 562.5" preserveAspectRatio="xMidYMid meet" aria-label="Interactive star map"></svg>
     </div>
     <div class="map-footer">
       <div class="color-picker"><span>Line colour</span>
-        <button class="swatch active" data-color="#d9d2ff" aria-label="Lavender line"></button>
-        <button class="swatch" data-color="#78a9ff" aria-label="Blue line"></button>
-        <button class="swatch" data-color="#ffb17b" aria-label="Amber line"></button>
-        <button class="swatch" data-color="#ff7777" aria-label="Red line"></button>
-        <button class="swatch" data-color="#9ee2ce" aria-label="Mint line"></button>
+        <button class="swatch active" data-color="#ffffff" aria-label="White line"></button>
+        <button class="swatch" data-color="#00ff66" aria-label="Neon Green line"></button>
+        <button class="swatch" data-color="#ffe600" aria-label="Neon Yellow line"></button>
+        <button class="swatch" data-color="#ff2a6d" aria-label="Neon Red line"></button>
+        <button class="swatch" data-color="#00f0ff" aria-label="Neon Blue line"></button>
       </div>
       <button class="btn small" id="helpBtn">How to Play</button>
     </div>
@@ -356,7 +384,7 @@ const DEFAULT_CONFIG = {
   opensAt: "",
   closesAt: "",
   durationMinutes: 0,
-  lineColor: "#d9d2ff",
+  lineColor: "#ffffff",
   guideImage: "",
   stars: [
     {id:"s1",x:210,y:190,r:4.2,c:"#eeeaff"},{id:"s2",x:335,y:245,r:5.2,c:"#c7c0ff"},
@@ -377,7 +405,6 @@ let config = loadDraftConfig() || structuredClone(DEFAULT_CONFIG);
 function loadDraftConfig(){try{const v=localStorage.getItem(STORAGE_KEY);return v?JSON.parse(v):null}catch(e){return null}}
 function persistDraft(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(config));return true}catch(e){return false}}
 
-// AUTO-FETCH MENGGUNAKAN FILE COBAJOSJIS.JSON KAMU
 (async function fetchExternalConfig() {
   try {
     const res = await fetch("cobajosjis.json?v=" + Date.now());
@@ -403,7 +430,7 @@ const feedbackControls = document.getElementById("feedbackControls");
 let stars = config.stars;
 let selectedStar = null;
 let edges = [];
-let lineColor = "#d9d2ff";
+let lineColor = "#ffffff";
 let observer = "";
 let startedAt = null;
 let endsAt = null;
@@ -630,7 +657,7 @@ function applyConfigToPage(){
   document.getElementById("mapLabel").textContent=config.mapLabel;
   document.getElementById("skyUpdateText").innerHTML=(config.skyUpdate||"").replace(/\n/g,"<br>");
   document.getElementById("fieldNotesText").innerHTML=(config.fieldNotes||"").replace(/\n/g,"<br>");
-  lineColor=config.lineColor||"#d9d2ff";
+  lineColor=config.lineColor||"#ffffff";
   document.querySelectorAll(".swatch").forEach(b=>b.classList.toggle("active",b.dataset.color===lineColor));
   stars=config.stars;
   document.getElementById("countdown").textContent="OPEN";
@@ -643,7 +670,7 @@ function fillEditorFields(){
   editorField("cfgMapLabel").value=config.mapLabel;editorField("cfgSkyUpdate").value=config.skyUpdate;
   editorField("cfgFieldNotes").value=config.fieldNotes;editorField("cfgOpens").value=config.opensAt||"";
   editorField("cfgCloses").value=config.closesAt||"";editorField("cfgDuration").value=config.durationMinutes||0;
-  editorField("cfgLineColor").value=config.lineColor||"#d9d2ff";
+  editorField("cfgLineColor").value=config.lineColor||"#ffffff";
   renderEditorMap();renderStarList();renderPatternSelect();
 }
 function readEditorFields(){
@@ -654,7 +681,7 @@ function readEditorFields(){
   config.skyUpdate=editorField("cfgSkyUpdate").value;config.fieldNotes=editorField("cfgFieldNotes").value;
   config.opensAt=editorField("cfgOpens").value.trim().replace("T"," ");config.closesAt=editorField("cfgCloses").value.trim().replace("T"," ");
   config.durationMinutes=Math.max(0,Number(editorField("cfgDuration").value)||0);
-  config.lineColor=editorField("cfgLineColor").value||"#d9d2ff";
+  config.lineColor=editorField("cfgLineColor").value||"#ffffff";
   config.stars=stars;
 }
 
@@ -676,7 +703,7 @@ function renderEditorMap(){
     const g=el("g",{cursor:"move","data-star-id":s.id});
     if(selectedEditorStar===s.id)g.appendChild(el("circle",{cx:s.x,cy:s.y,r:s.r*3.2,fill:"none",stroke:"#fff","stroke-width":1.5}));
     g.appendChild(el("circle",{cx:s.x,cy:s.y,r:s.r*1.9,fill:s.c,opacity:.16}));g.appendChild(el("circle",{cx:s.x,cy:s.y,r:s.r,fill:s.c}));
-    const txt=el("text",{x:s.x+10,y:s.y-9,fill:"#bfbadf","font-size":12,"font-family":"'Cosmic', sans-serif",opacity:.7});txt.textContent=s.id;g.appendChild(txt);
+    const txt=el("text",{x:s.x+10,y:s.y-9,fill:"#bfbadf","font-size":12,"font-family":"'Plus Jakarta Sans', sans-serif",opacity:.7});txt.textContent=s.id;g.appendChild(txt);
     g.addEventListener("pointerdown",ev=>{ev.preventDefault();try{editorSvg.setPointerCapture(ev.pointerId)}catch(e){}selectedEditorStar=s.id;dragStarId=s.id;renderEditorMap();renderStarList();if(answerMode){handleAnswerStar(s.id);dragStarId=null;}});
     editorSvg.appendChild(g);
   });

@@ -4,14 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Stellar Trace</title>
+
+<!-- Import Google Fonts: Cormorant Garamond & Cinzel -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
 <style>
-  @font-face {
+@font-face {
   font-family: 'Variable Star';
   src: url('Variablestar.woff2') format('woff2'),
        url('Variablestar.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Cosmic';
+  src: url('Cosmic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root{
   --night:#070914; --ink:#eeeaff; --muted:rgba(238,234,255,.48);
   --line:rgba(255,255,255,.13); --panel:rgba(255,255,255,.035);
@@ -19,7 +32,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--night);color:var(--ink)}
-body{font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
+body{font-family:'Cormorant Garamond', Georgia, serif;overflow-x:hidden}
 body::before {
   content: "";
   position: fixed;
@@ -37,7 +50,11 @@ button{color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible{outline:1px solid #c6c0ff;outline-offset:3px}
 .app{position:relative;z-index:1;min-height:100vh;padding:28px 24px 36px;background:radial-gradient(circle at center,rgba(93,82,155,.16),transparent 48%),#070914}
 header{text-align:center;padding:8px 0 0}
-.kicker,.eyebrow,.micro{font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:9px;color:var(--muted)}
+
+/* Kicker diperbesar 2x (18px) & menggunakan font Cosmic */
+.kicker{font-family:'Cosmic',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:18px;color:var(--muted)}
+.eyebrow,.micro{font-family:'Cosmic',sans-serif;text-transform:uppercase;letter-spacing:3px;font-size:9px;color:var(--muted)}
+
 h1 {
   font-family: 'Variable Star', Georgia, serif;
   font-weight: normal;
@@ -46,83 +63,84 @@ h1 {
   line-height: 1.12;
   margin: 10px 0 8px;
 }
-.subtitle{font-size:14px;font-style:italic;opacity:.62}
-.topline{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:23px auto 18px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--muted)}
+.subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;opacity:.75}
+.topline{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:23px auto 18px;font-family:'Cosmic',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--muted)}
 .pip{width:4px;height:4px;border-radius:50%;background:#b7b0e8;opacity:.7}
 .panel{border:1px solid var(--line);background:var(--panel);border-radius:14px;backdrop-filter:blur(8px)}
 .welcome{width:min(560px,100%);margin:36px auto 0;padding:clamp(24px,5vw,44px);text-align:center}
 .welcome .sigil{font-size:28px;color:#c7c0ff;opacity:.8;margin-bottom:14px}
-.welcome p{font-size:15px;line-height:1.8;opacity:.7;max-width:390px;margin:16px auto 24px;white-space:pre-line}
+.welcome p{font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.8;opacity:.8;max-width:390px;margin:16px auto 24px;white-space:pre-line}
 .name-wrap{max-width:340px;margin:0 auto;text-align:left}
-label{display:block;font-family:Arial,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
-input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:13px 14px;color:var(--ink);font-family:Arial,sans-serif;font-size:13px}
-.btn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.055);padding:11px 16px;border-radius:999px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;transition:background .2s,border-color .2s,transform .2s}
+label{display:block;font-family:'Cosmic',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:13px 14px;color:var(--ink);font-family:'Cosmic',sans-serif;font-size:13px}
+.btn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.055);padding:11px 16px;border-radius:999px;font-family:'Cosmic',sans-serif;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;transition:background .2s,border-color .2s,transform .2s}
 .btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.32);transform:translateY(-1px)}
 .btn.primary{background:rgba(170,164,216,.14);border-color:rgba(170,164,216,.48)}
 .btn.small{padding:8px 12px;font-size:8px}
 .btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
 .welcome .primary{margin-top:16px;min-width:190px}
-.fineprint{font:9px/1.6 Arial,sans-serif;letter-spacing:.6px;color:rgba(238,234,255,.35);margin-top:22px}
+.fineprint{font:10px/1.6 'Cosmic',sans-serif;letter-spacing:.6px;color:rgba(238,234,255,.35);margin-top:22px}
 .game{display:none;width:min(1100px,100%);margin:0 auto}
 .game.active{display:block}
 .game-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 14px}
-.player{font-size:12px;letter-spacing:1px}
-.player span{font-style:italic;opacity:.6}
+.player{font-size:13px;letter-spacing:1px;font-family:'Cosmic',sans-serif}
+.player span{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;opacity:.85}
 .stats{display:flex;gap:8px;flex-wrap:wrap}
-.stat{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025);border-radius:999px;padding:8px 12px;font-family:Arial,sans-serif;font-size:9px;letter-spacing:1px;color:rgba(238,234,255,.72)}
+.stat{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025);border-radius:999px;padding:8px 12px;font-family:'Cosmic',sans-serif;font-size:9px;letter-spacing:1px;color:rgba(238,234,255,.72)}
 .stat strong{font-weight:normal;color:#fff;margin-left:5px}
 .section-title{text-align:center;margin:20px 0 14px}
-.section-title h2{font-size:25px;font-weight:normal;letter-spacing:5px;margin:0}
-.section-title p{font:9px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;opacity:.38;margin:8px 0 0}
+.section-title h2{font-family:'Cinzel',serif;font-size:25px;font-weight:normal;letter-spacing:5px;margin:0}
+.section-title p{font:9px 'Cosmic',sans-serif;letter-spacing:2px;text-transform:uppercase;opacity:.38;margin:8px 0 0}
 .map-shell{position:relative;width:100%;aspect-ratio:16/9;min-height:260px;border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at center,rgba(100,90,160,.12),transparent 62%)}
 .map-shell::before,.map-shell::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.035);border-radius:50%;pointer-events:none}
 .map-shell::before{width:72%;height:72%;left:14%;top:14%;transform:rotate(18deg)}
 .map-shell::after{width:48%;height:48%;left:26%;top:26%;transform:rotate(-25deg)}
-.map-label{position:absolute;z-index:2;top:19px;left:22px;font:9px Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;opacity:.35}
-.map-hint{position:absolute;z-index:2;right:18px;top:18px;font:9px Arial,sans-serif;letter-spacing:1px;color:rgba(238,234,255,.35);text-align:right}
+.map-label{position:absolute;z-index:2;top:19px;left:22px;font:9px 'Cosmic',sans-serif;letter-spacing:3px;text-transform:uppercase;opacity:.35}
+.map-hint{position:absolute;z-index:2;right:18px;top:18px;font:9px 'Cosmic',sans-serif;letter-spacing:1px;color:rgba(238,234,255,.35);text-align:right}
 #starMap{position:absolute;inset:0;width:100%;height:100%;z-index:3;touch-action:manipulation}
 .star-point{cursor:pointer;transition:filter .15s}
 .star-point:hover{filter:drop-shadow(0 0 7px currentColor) drop-shadow(0 0 16px currentColor)}
 .user-line{stroke-width:1.6;stroke-linecap:round;opacity:.86;pointer-events:stroke;cursor:pointer}
 .map-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
 .color-picker{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.color-picker span{font:8px Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase;opacity:.45;margin-right:3px}
+.color-picker span{font:8px 'Cosmic',sans-serif;letter-spacing:1.5px;text-transform:uppercase;opacity:.45;margin-right:3px}
 .swatch{width:19px;height:19px;border-radius:50%;border:1px solid rgba(255,255,255,.25);padding:0;position:relative}
 .swatch.active::after{content:"";position:absolute;inset:-4px;border:1px solid rgba(255,255,255,.65);border-radius:50%}
 .swatch[data-color="#d9d2ff"]{background:#d9d2ff}.swatch[data-color="#78a9ff"]{background:#78a9ff}.swatch[data-color="#ffb17b"]{background:#ffb17b}.swatch[data-color="#ff7777"]{background:#ff7777}.swatch[data-color="#9ee2ce"]{background:#9ee2ce}
 .controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 0}
 .below{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
 .info-card{padding:16px 18px}
-.info-card h3{font-weight:normal;font-size:13px;letter-spacing:1.4px;margin:0 0 8px}
-.info-card p{font:11px/1.7 Arial,sans-serif;color:rgba(238,234,255,.48);margin:0;white-space:pre-line}
+.info-card h3{font-family:'Cosmic',sans-serif;font-weight:normal;font-size:13px;letter-spacing:1.4px;margin:0 0 8px}
+.info-card p{font:15px/1.7 'Cormorant Garamond',serif;color:rgba(238,234,255,.68);margin:0;white-space:pre-line}
 .feedback{display:none;margin:0;padding:8px 0;text-align:center}
 .feedback.active{display:block}
 .result-modal-content{width:min(470px,100%);text-align:center}
 .result-modal-content .feedback h3{font-size:22px;letter-spacing:1.5px}
-.result-modal-content .feedback p{font-size:12px;white-space:pre-line}
+.result-modal-content .feedback p{font-size:15px;white-space:pre-line}
 .result-modal-content .feedback .stamp{margin-top:12px}
 .feedback h3{font-weight:normal;font-size:18px;letter-spacing:2px;margin:0 0 7px}
-.feedback p{font:11px/1.7 Arial,sans-serif;color:rgba(238,234,255,.58);margin:0 0 14px;white-space:pre-line}
-.feedback .stamp{font:9px Arial,sans-serif;letter-spacing:1px;color:rgba(238,234,255,.42)}
-.footer{text-align:center;margin-top:30px;font:8px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:rgba(238,234,255,.25)}
+.feedback p{font:15px/1.7 'Cormorant Garamond',serif;color:rgba(238,234,255,.75);margin:0 0 14px;white-space:pre-line}
+.feedback .stamp{font:9px 'Cosmic',sans-serif;letter-spacing:1px;color:rgba(238,234,255,.42)}
+.footer{text-align:center;margin-top:30px;font:9px 'Cosmic',sans-serif;letter-spacing:2px;text-transform:uppercase;color:rgba(238,234,255,.25)}
 .modal-backdrop{position:fixed;inset:0;z-index:10;background:rgba(2,3,10,.72);display:none;align-items:center;justify-content:center;padding:20px}
 .modal-backdrop.active{display:flex}
 .modal{width:min(470px,100%);padding:26px;border:1px solid rgba(255,255,255,.15);border-radius:14px;background:linear-gradient(135deg,rgba(18,20,38,.99),rgba(9,11,21,.99));box-shadow:0 20px 70px rgba(0,0,0,.55)}
 .modal h2{font-weight:normal;font-size:22px;letter-spacing:2px;margin:0 0 14px}
-.modal p,.modal li{font:12px/1.8 Arial,sans-serif;color:rgba(238,234,255,.65)}
+.modal p,.modal li{font:14px/1.8 'Cormorant Garamond',serif;color:rgba(238,234,255,.75)}
 .modal ul{padding-left:18px}
 .modal .btn{margin-top:12px}
 
 @media(max-width:650px){
   .app{padding:22px 12px 28px}
-  .subtitle{font-size:12px}
+  .kicker{font-size:14px}
+  .subtitle{font-size:13px}
   .topline{gap:7px;font-size:8px;letter-spacing:1px}
   .welcome{margin-top:25px;padding:25px 18px}
   .game-meta{justify-content:center}
   .player{width:100%;text-align:center}
   .stats{justify-content:center}
   .section-title h2{font-size:21px;letter-spacing:4px}
-  .map-shell{min-height:200px;aspect-ratio:16/9} /* Menjaga rasio tetap proporsional 16:9 di HP */
+  .map-shell{min-height:200px;aspect-ratio:16/9}
   .map-label{top:13px;left:13px;font-size:8px;letter-spacing:2px}
   .map-hint{top:13px;right:13px;font-size:8px}
   .below{grid-template-columns:1fr}
@@ -145,16 +163,16 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
 .editor-card{padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.025);min-width:0}
 .editor-card h3{font-size:12px;font-weight:normal;letter-spacing:1.5px;margin:0 0 12px;color:#aaa4d8}
 .editor-field{margin:0 0 12px}
-.editor-field input,.editor-field textarea,.editor-field select{width:100%;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:9px;color:var(--ink);font:12px Arial,sans-serif}
+.editor-field input,.editor-field textarea,.editor-field select{width:100%;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:9px;color:var(--ink);font:12px 'Cosmic',sans-serif}
 .editor-field textarea{min-height:64px;resize:vertical;line-height:1.5}
-.editor-field small{display:block;font:10px/1.5 Arial,sans-serif;color:var(--muted);margin-top:4px}
+.editor-field small{display:block;font:10px/1.5 'Cosmic',sans-serif;color:var(--muted);margin-top:4px}
 .editor-field input[type=color]{height:38px;padding:3px}
 .editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .editor-actions .btn{flex:0 0 auto}
-.editor-status{font:11px/1.6 Arial,sans-serif;color:#c7c0ff;margin-top:10px;min-height:17px}
-.editor-help{font:11px/1.6 Arial,sans-serif;color:var(--muted);margin:0 0 10px}
-.star-list{max-height:140px;overflow:auto;font:11px Arial,sans-serif;color:var(--muted);line-height:1.8}
-.star-list button{margin-left:8px;font:10px Arial,sans-serif;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--ink);cursor:pointer}
+.editor-status{font:11px/1.6 'Cosmic',sans-serif;color:#c7c0ff;margin-top:10px;min-height:17px}
+.editor-help{font:11px/1.6 'Cosmic',sans-serif;color:var(--muted);margin:0 0 10px}
+.star-list{max-height:140px;overflow:auto;font:11px 'Cosmic',sans-serif;color:var(--muted);line-height:1.8}
+.star-list button{margin-left:8px;font:10px 'Cosmic',sans-serif;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--ink);cursor:pointer}
 
 @media(max-width:900px){
   .editor-grid{grid-template-columns:1fr}
@@ -658,7 +676,7 @@ function renderEditorMap(){
     const g=el("g",{cursor:"move","data-star-id":s.id});
     if(selectedEditorStar===s.id)g.appendChild(el("circle",{cx:s.x,cy:s.y,r:s.r*3.2,fill:"none",stroke:"#fff","stroke-width":1.5}));
     g.appendChild(el("circle",{cx:s.x,cy:s.y,r:s.r*1.9,fill:s.c,opacity:.16}));g.appendChild(el("circle",{cx:s.x,cy:s.y,r:s.r,fill:s.c}));
-    const txt=el("text",{x:s.x+10,y:s.y-9,fill:"#bfbadf","font-size":12,"font-family":"Arial",opacity:.7});txt.textContent=s.id;g.appendChild(txt);
+    const txt=el("text",{x:s.x+10,y:s.y-9,fill:"#bfbadf","font-size":12,"font-family":"'Cosmic', sans-serif",opacity:.7});txt.textContent=s.id;g.appendChild(txt);
     g.addEventListener("pointerdown",ev=>{ev.preventDefault();try{editorSvg.setPointerCapture(ev.pointerId)}catch(e){}selectedEditorStar=s.id;dragStarId=s.id;renderEditorMap();renderStarList();if(answerMode){handleAnswerStar(s.id);dragStarId=null;}});
     editorSvg.appendChild(g);
   });

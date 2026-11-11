@@ -316,6 +316,11 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
     <div class="editor-field"><label for="cfgStarColor">Selected star colour</label><input id="cfgStarColor" type="color" value="#eeeaff"></div>
     <div class="editor-field"><label for="cfgStarSize">Selected star size</label><input id="cfgStarSize" type="range" min="2" max="10" step="0.5" value="4.2"></div>
     <div class="editor-field"><label for="cfgGuideFile">Upload Gambar Guide (Lokal/Laptop)</label><input id="cfgGuideFile" type="file" accept="image/*"><small>Gambar ini hanya pembantu visual di editor & tidak terlihat pemain.</small></div>
+    <div class="editor-field"><label for="cfgGuideZoom">Guide Zoom · <span id="guideZoomValue">100%</span></label><input id="cfgGuideZoom" type="range" min="0.5" max="2.5" step="0.05" value="1"></div>
+    <div class="editor-field"><label for="cfgGuideX">Guide Position · Horizontal</label><input id="cfgGuideX" type="range" min="-500" max="500" step="5" value="0"></div>
+    <div class="editor-field"><label for="cfgGuideY">Guide Position · Vertical</label><input id="cfgGuideY" type="range" min="-281" max="281" step="5" value="0"></div>
+    <div class="editor-actions"><button class="btn small" id="resetGuideBtn">Reset Guide Position</button></div>
+    <small class="editor-help">Atur zoom, lalu geser posisi gambar sampai bintang pada guide sejajar dengan canvas.</small>
     <div class="editor-field"><label for="cfgPatternSelect">Saved accepted patterns</label><select id="cfgPatternSelect"></select></div>
     <div class="editor-actions"><button class="btn small" id="deletePatternBtn">Delete Pattern</button><button class="btn small" id="loadPatternBtn">Load Pattern to Edit</button></div>
     <div class="star-list" id="starList" style="margin-top:10px"></div>
@@ -383,6 +388,9 @@ const DEFAULT_CONFIG = {
   durationMinutes: 0,
   lineColor: "#ffffff",
   guideImage: "",
+  guideScale: 1,
+  guideX: 0,
+  guideY: 0,
   stars: [
     {id:"s1",x:210,y:190,r:4.2,c:"#eeeaff"},{id:"s2",x:335,y:245,r:5.2,c:"#c7c0ff"},
     {id:"s3",x:460,y:300,r:3.7,c:"#eeeaff"},{id:"s4",x:585,y:265,r:4.6,c:"#eeeaff"},
@@ -668,6 +676,10 @@ function fillEditorFields(){
   editorField("cfgFieldNotes").value=config.fieldNotes;editorField("cfgOpens").value=config.opensAt||"";
   editorField("cfgCloses").value=config.closesAt||"";editorField("cfgDuration").value=config.durationMinutes||0;
   editorField("cfgLineColor").value=config.lineColor||"#ffffff";
+  editorField("cfgGuideZoom").value=config.guideScale??1;
+  editorField("cfgGuideX").value=config.guideX??0;
+  editorField("cfgGuideY").value=config.guideY??0;
+  editorField("guideZoomValue").textContent=Math.round((config.guideScale??1)*100)+"%";
   renderEditorMap();renderStarList();renderPatternSelect();
 }
 function readEditorFields(){
@@ -685,11 +697,14 @@ function readEditorFields(){
 function renderEditorMap(){
   editorSvg.innerHTML="";
   if (config.guideImage) {
+    const scale=Number(config.guideScale)||1;
+    const width=1000*scale, height=562.5*scale;
     const guideImg = el("image", {
       href: config.guideImage,
-      x: 0, y: 0,
-      width: 1000, height: 562.5,
-      preserveAspectRatio: "none",
+      x: (1000-width)/2+(Number(config.guideX)||0),
+      y: (562.5-height)/2+(Number(config.guideY)||0),
+      width, height,
+      preserveAspectRatio: "xMidYMid meet",
       opacity: 0.38
     });
     editorSvg.appendChild(guideImg);
@@ -720,6 +735,22 @@ editorField("cfgStarSize").addEventListener("input",()=>{const s=starById(select
 editorField("addStarBtn").addEventListener("click",()=>{addingStar=!addingStar;editorField("addStarBtn").textContent=addingStar?"Click Map to Add Star":"＋ Add Star";editorStatus.textContent=addingStar?"Click an empty area in the map to place a new star.":""});
 editorField("cancelAddStarBtn").addEventListener("click",()=>{addingStar=false;editorField("addStarBtn").textContent="＋ Add Star"});
 editorField("deleteStarBtn").addEventListener("click",()=>{if(!selectedEditorStar){editorStatus.textContent="Select a star first.";return}const id=selectedEditorStar;stars=stars.filter(s=>s.id!==id);config.stars=stars;config.acceptedPatterns=config.acceptedPatterns.map(p=>p.filter(e=>!e.includes(id))).filter(p=>p.length);answerEdges=answerEdges.filter(e=>!e.includes(id));selectedEditorStar=null;renderEditorMap();renderStarList();renderPatternSelect();persistDraft();editorStatus.textContent=`Deleted ${id}.`});
+
+function updateGuideTransform(){
+  config.guideScale=Number(editorField("cfgGuideZoom").value)||1;
+  config.guideX=Number(editorField("cfgGuideX").value)||0;
+  config.guideY=Number(editorField("cfgGuideY").value)||0;
+  editorField("guideZoomValue").textContent=Math.round(config.guideScale*100)+"%";
+  renderEditorMap();
+  persistDraft();
+}
+["cfgGuideZoom","cfgGuideX","cfgGuideY"].forEach(id=>editorField(id).addEventListener("input",updateGuideTransform));
+editorField("resetGuideBtn").addEventListener("click",()=>{
+  config.guideScale=1;config.guideX=0;config.guideY=0;
+  editorField("cfgGuideZoom").value=1;editorField("cfgGuideX").value=0;editorField("cfgGuideY").value=0;
+  updateGuideTransform();
+  editorStatus.textContent="Guide position reset.";
+});
 
 editorField("cfgGuideFile").addEventListener("change", (e) => {
   const file = e.target.files[0];

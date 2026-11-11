@@ -302,6 +302,7 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
     <div class="editor-actions">
       <button class="btn small primary" id="addStarBtn">＋ Add Star</button>
       <button class="btn small" id="deleteStarBtn">Delete Selected</button>
+      <button class="btn small" id="clearAllStarsBtn">Clear All Stars</button>
       <button class="btn small" id="cancelAddStarBtn">Cancel Add</button>
       <button class="btn small" id="answerModeBtn" style="margin-left:auto">Answer Mode: Off</button>
       <button class="btn small" id="savePatternBtn">Save Pattern</button>
@@ -735,6 +736,7 @@ editorField("cfgStarSize").addEventListener("input",()=>{const s=starById(select
 editorField("addStarBtn").addEventListener("click",()=>{addingStar=!addingStar;editorField("addStarBtn").textContent=addingStar?"Click Map to Add Star":"＋ Add Star";editorStatus.textContent=addingStar?"Click an empty area in the map to place a new star.":""});
 editorField("cancelAddStarBtn").addEventListener("click",()=>{addingStar=false;editorField("addStarBtn").textContent="＋ Add Star"});
 editorField("deleteStarBtn").addEventListener("click",()=>{if(!selectedEditorStar){editorStatus.textContent="Select a star first.";return}const id=selectedEditorStar;stars=stars.filter(s=>s.id!==id);config.stars=stars;config.acceptedPatterns=config.acceptedPatterns.map(p=>p.filter(e=>!e.includes(id))).filter(p=>p.length);answerEdges=answerEdges.filter(e=>!e.includes(id));selectedEditorStar=null;renderEditorMap();renderStarList();renderPatternSelect();persistDraft();editorStatus.textContent=`Deleted ${id}.`});
+editorField("clearAllStarsBtn").addEventListener("click",()=>{if(!stars.length){editorStatus.textContent="There are no stars to clear.";return}if(!confirm("Clear all stars and all saved answer patterns? This will keep your guide image and other settings."))return;stars=[];config.stars=stars;config.acceptedPatterns=[];answerEdges=[];selectedEditorStar=null;selectedAnswerStar=null;addingStar=false;editorField("addStarBtn").textContent="＋ Add Star";renderEditorMap();renderStarList();renderPatternSelect();persistDraft();editorStatus.textContent="All stars and answer patterns cleared. Other settings were kept."});
 
 function updateGuideTransform(){
   config.guideScale=Number(editorField("cfgGuideZoom").value)||1;

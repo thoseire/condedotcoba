@@ -203,6 +203,14 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
   .editor-grid{grid-template-columns:1fr}
   .editor-map{min-height:260px}
 }
+
+/* FREE TEXT TOOL */
+.editor-card.wide{grid-column:1/-1}
+.text-tool-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:14px;align-items:start}
+.editor-field input:disabled,.editor-field textarea:disabled,.editor-field select:disabled{opacity:.35;cursor:not-allowed}
+#editorMap [data-text-id] text{user-select:none;-webkit-user-select:none}
+@media(max-width:900px){.text-tool-row{grid-template-columns:1fr}}
+  
 </style>
 </head>
 <body>
@@ -300,6 +308,7 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
     </div>
     <div class="editor-actions">
       <button class="btn small primary" id="addStarBtn">＋ Add Star</button>
+      <button class="btn small primary" id="addTextBtn">＋ Add Text</button>
       <button class="btn small" id="deleteStarBtn">Delete Selected</button>
       <button class="btn small" id="clearAllStarsBtn">Clear All Stars</button>
       <button class="btn small" id="cancelAddStarBtn">Cancel Add</button>
@@ -343,6 +352,28 @@ input[type=text]{width:100%;background:rgba(255,255,255,.035);border:1px solid r
     <div class="editor-field"><label for="cfgCloses">Tanggal & jam berakhir</label><input id="cfgCloses" type="text" placeholder="2026-10-25 19:00"><small>Waktu penutupan otomatis.</small></div>
     <div class="editor-field"><label for="cfgDuration">Durasi per pemain (menit; 0 = bebas)</label><input id="cfgDuration" type="number" min="0" max="10080" step="1"></div>
     <div class="editor-field"><label for="cfgLineColor">Warna garis default</label><input id="cfgLineColor" type="color"></div>
+   </section>
+
+     <section class="editor-card wide">
+    <h3>05 · FREE TEXT</h3>
+    <p class="editor-help">Klik "＋ Add Text", lalu klik di peta. Klik teks untuk memilih, geser untuk memindahkan. Enter di kolom teks = baris baru. Titik posisi teks ada di sisi kiri / tengah / kanan sesuai alignment.</p>
+    <div class="text-tool-row">
+      <div class="editor-field"><label for="cfgTextContent">Isi teks</label><textarea id="cfgTextContent" disabled></textarea></div>
+      <div class="editor-field"><label for="cfgTextSize">Ukuran · <span id="textSizeValue">28</span></label><input id="cfgTextSize" type="range" min="8" max="120" step="1" value="28" disabled></div>
+      <div class="editor-field"><label for="cfgTextColor">Warna</label><input id="cfgTextColor" type="color" value="#eeeaff" disabled></div>
+      <div class="editor-field"><label for="cfgTextAlign">Alignment</label>
+        <select id="cfgTextAlign" disabled>
+          <option value="start">Kiri</option>
+          <option value="middle">Tengah</option>
+          <option value="end">Kanan</option>
+        </select>
+      </div>
+    </div>
+    <div class="editor-actions">
+      <button class="btn small" id="deleteTextBtn">Delete Text</button>
+      <button class="btn small" id="cancelAddTextBtn">Cancel Add</button>
+    </div>
+    <div class="editor-status" id="textStatus"></div>
    </section>
   </div>
 
@@ -391,6 +422,7 @@ const DEFAULT_CONFIG = {
   guideScale: 1,
   guideX: 0,
   guideY: 0,
+  texts: [],
   stars: [
     {id:"s1",x:210,y:190,r:4.2,c:"#eeeaff"},{id:"s2",x:335,y:245,r:5.2,c:"#c7c0ff"},
     {id:"s3",x:460,y:300,r:3.7,c:"#eeeaff"},{id:"s4",x:585,y:265,r:4.6,c:"#eeeaff"},
@@ -406,6 +438,7 @@ const DEFAULT_CONFIG = {
 };
 const STORAGE_KEY = "constellationConnectDraftV2";
 let config = loadDraftConfig() || structuredClone(DEFAULT_CONFIG);
+if(!Array.isArray(config.texts))config.texts=[];
 
 function loadDraftConfig(){try{const v=localStorage.getItem(STORAGE_KEY);return v?JSON.parse(v):null}catch(e){return null}}
 function persistDraft(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(config));return true}catch(e){return false}}
@@ -467,6 +500,7 @@ function appendBackgroundStars(){
 function drawMap(){
   svg.innerHTML="";
   appendBackgroundStars();
+  appendTexts(svg);
   edges.forEach(edge=>{
     const a=starById(edge.a), b=starById(edge.b);
     if(!a||!b)return;
@@ -803,6 +837,124 @@ editorField("importConfigFile").addEventListener("change",async ev=>{const f=ev.
 editorField("resetConfigBtn").addEventListener("click",()=>{if(!confirm("Reset all editor changes?"))return;config=structuredClone(DEFAULT_CONFIG);stars=config.stars;answerEdges=[];selectedEditorStar=null;fillEditorFields();applyConfigToPage();persistDraft();editorStatus.textContent="Demo setup restored."});
 
 ["cfgSiteTitle","cfgWelcomeText","cfgTitle","cfgSubheading","cfgMapLabel","cfgSkyUpdate","cfgFieldNotes","cfgOpens","cfgCloses","cfgDuration","cfgLineColor"].forEach(id=>editorField(id).addEventListener("change",()=>{readEditorFields();applyConfigToPage();persistDraft()}));
+/* ===== FREE TEXT TOOL ===== */
+let selectedTextId=null, addingText=false, dragTextId=null, dragTextOffset={x:0,y:0};
+const textStatus=document.getElementById("textStatus");
+function textById(id){return (config.texts||[]).find(t=>t.id===id)}
+
+function makeTextNode(t){
+  const n=el("text",{x:t.x,y:t.y,fill:t.c,"font-size":t.size,"text-anchor":t.align||"middle","font-family":"'Cormorant Garamond',serif"});
+  String(t.text||"").split("\n").forEach((line,i)=>{
+    const ts=el("tspan",{x:t.x,dy:i?"1.2em":"0"});
+    ts.textContent=line||"\u00A0";
+    n.appendChild(ts);
+  });
+  return n;
+}
+function appendTexts(target){
+  (config.texts||[]).forEach(t=>{const n=makeTextNode(t);n.setAttribute("pointer-events","none");target.appendChild(n)});
+}
+
+function renderEditorTexts(){
+  const layer=el("g",{});
+  (config.texts||[]).forEach(t=>{
+    const grp=el("g",{"data-text-id":t.id,cursor:"move"});
+    const node=makeTextNode(t);
+    node.setAttribute("pointer-events","all");
+    grp.appendChild(node);
+    layer.appendChild(grp);
+  });
+  const firstStar=editorSvg.querySelector("[data-star-id]");
+  firstStar?editorSvg.insertBefore(layer,firstStar):editorSvg.appendChild(layer);
+  const sel=layer.querySelector(`[data-text-id="${selectedTextId}"]`);
+  if(sel){try{
+    const b=sel.getBBox();
+    sel.insertBefore(el("rect",{x:b.x-6,y:b.y-4,width:b.width+12,height:b.height+8,fill:"none",stroke:"#c7c0ff","stroke-width":1,"stroke-dasharray":"4 3",rx:3}),sel.firstChild);
+  }catch(e){}}
+}
+const baseRenderEditorMap=renderEditorMap;
+renderEditorMap=function(){baseRenderEditorMap();renderEditorTexts()};
+
+function syncTextPanel(){
+  const t=textById(selectedTextId);
+  ["cfgTextContent","cfgTextSize","cfgTextColor","cfgTextAlign"].forEach(id=>editorField(id).disabled=!t);
+  if(!t){editorField("cfgTextContent").value="";return}
+  editorField("cfgTextContent").value=t.text;
+  editorField("cfgTextSize").value=t.size;
+  editorField("textSizeValue").textContent=t.size;
+  editorField("cfgTextColor").value=t.c;
+  editorField("cfgTextAlign").value=t.align||"middle";
+}
+function selectText(id){
+  selectedTextId=id;selectedEditorStar=null;
+  renderEditorMap();renderStarList();syncTextPanel();
+}
+const baseFillEditorFields=fillEditorFields;
+fillEditorFields=function(){selectedTextId=null;baseFillEditorFields();syncTextPanel()};
+
+function setAddingText(on){
+  addingText=on;
+  if(on){addingStar=false;editorField("addStarBtn").textContent="＋ Add Star"}
+  editorField("addTextBtn").textContent=on?"Click Map to Add Text":"＋ Add Text";
+  textStatus.textContent=on?"Klik area kosong di peta untuk menaruh teks baru.":"";
+}
+editorField("addTextBtn").addEventListener("click",()=>setAddingText(!addingText));
+editorField("cancelAddTextBtn").addEventListener("click",()=>setAddingText(false));
+editorField("addStarBtn").addEventListener("click",()=>{if(addingStar)setAddingText(false)});
+
+editorSvg.addEventListener("click",ev=>{
+  if(!addingText||answerMode||ev.target.closest("[data-text-id],[data-star-id]"))return;
+  const p=svgCoords(ev);
+  let n=config.texts.length+1,id="t"+n;
+  while(textById(id)){n++;id="t"+n}
+  config.texts.push({id,x:Math.round(p.x),y:Math.round(p.y),text:"Teks baru",size:28,c:"#eeeaff",align:"middle"});
+  setAddingText(false);
+  selectText(id);
+  persistDraft();
+  textStatus.textContent="Teks ditambahkan. Edit isinya di panel 05, atau geser di peta.";
+  editorField("cfgTextContent").focus();editorField("cfgTextContent").select();
+});
+
+editorSvg.addEventListener("pointerdown",ev=>{
+  if(ev.target.closest("[data-star-id]")){
+    if(selectedTextId){selectedTextId=null;renderEditorMap();syncTextPanel()}
+    return;
+  }
+  const g=ev.target.closest("[data-text-id]");
+  if(!g||answerMode)return;
+  const t=textById(g.getAttribute("data-text-id"));
+  if(!t)return;
+  ev.preventDefault();
+  try{editorSvg.setPointerCapture(ev.pointerId)}catch(e){}
+  const p=svgCoords(ev);
+  dragTextId=t.id;dragTextOffset={x:t.x-p.x,y:t.y-p.y};
+  selectText(t.id);
+});
+editorSvg.addEventListener("pointermove",ev=>{
+  if(!dragTextId)return;
+  const t=textById(dragTextId);if(!t)return;
+  const p=svgCoords(ev);
+  t.x=Math.round(p.x+dragTextOffset.x);t.y=Math.round(p.y+dragTextOffset.y);
+  renderEditorMap();
+});
+function endTextDrag(){if(dragTextId){dragTextId=null;persistDraft()}}
+editorSvg.addEventListener("pointerup",endTextDrag);
+editorSvg.addEventListener("pointercancel",()=>{dragTextId=null});
+
+function updateSelectedText(fn){
+  const t=textById(selectedTextId);if(!t)return;
+  fn(t);renderEditorMap();persistDraft();
+}
+editorField("cfgTextContent").addEventListener("input",()=>updateSelectedText(t=>t.text=editorField("cfgTextContent").value));
+editorField("cfgTextSize").addEventListener("input",()=>updateSelectedText(t=>{t.size=Number(editorField("cfgTextSize").value);editorField("textSizeValue").textContent=t.size}));
+editorField("cfgTextColor").addEventListener("input",()=>updateSelectedText(t=>t.c=editorField("cfgTextColor").value));
+editorField("cfgTextAlign").addEventListener("change",()=>updateSelectedText(t=>t.align=editorField("cfgTextAlign").value));
+editorField("deleteTextBtn").addEventListener("click",()=>{
+  if(!textById(selectedTextId)){textStatus.textContent="Pilih teks dulu di peta.";return}
+  config.texts=config.texts.filter(t=>t.id!==selectedTextId);
+  selectedTextId=null;renderEditorMap();syncTextPanel();persistDraft();
+  textStatus.textContent="Teks dihapus.";
+});
 document.getElementById("openEditorBtn").addEventListener("click",()=>{fillEditorFields();editorBackdrop.classList.add("active")});
 document.getElementById("closeEditorBtn").addEventListener("click",()=>editorBackdrop.classList.remove("active"));
 editorBackdrop.addEventListener("click",ev=>{if(ev.target===editorBackdrop)editorBackdrop.classList.remove("active")});

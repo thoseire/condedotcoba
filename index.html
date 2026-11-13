@@ -13,14 +13,13 @@
 <style>
 @font-face {
   font-family: 'Variable Star';
-  src: url('Variablestar.woff2') format('woff2'),
-       url('Variablestar.ttf') format('truetype');
+  src: url('fonts/variablestar.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'Cosmic';
-  src: url('Cosmic.ttf') format('truetype');
+  src: url('fonts/cosmic.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -449,9 +448,7 @@ let activePatternIndex = 0;
 let windowClosed = false;
 let timerHandle = null;
 let submitted = false;
-let audioContext = null;
-let ambienceOscillators = [];
-let ambienceGain = null;
+let ambienceAudio = null;
 
 function el(tag, attrs={}) {
   const node = document.createElementNS(NS, tag);
@@ -614,25 +611,29 @@ function setLineColor(color){
   document.querySelectorAll(".swatch").forEach(btn=>btn.classList.toggle("active",btn.dataset.color===color));
 }
 function stopAmbience(){
-  if(audioContext){
-    ambienceOscillators.forEach(o=>{try{o.stop()}catch(e){}});
-    ambienceOscillators=[];try{audioContext.close()}catch(e){}
-    audioContext=null;ambienceGain=null;
+  if(ambienceAudio){
+    ambienceAudio.pause();
+    ambienceAudio.currentTime=0;
   }
   document.getElementById("musicBtn").textContent="♫ Ambience: Off";
 }
 async function toggleAmbience(){
-  if(audioContext){stopAmbience();return}
+  if(!ambienceAudio){
+    ambienceAudio=new Audio("audio/Dark%20Academia.mp3");
+    ambienceAudio.loop=true;
+    ambienceAudio.volume=0.45;
+  }
+  if(!ambienceAudio.paused){
+    stopAmbience();
+    return;
+  }
   try{
-    audioContext=new (window.AudioContext||window.webkitAudioContext)();
-    ambienceGain=audioContext.createGain();ambienceGain.gain.value=.012;ambienceGain.connect(audioContext.destination);
-    [110,164.81,220].forEach((freq,i)=>{
-      const osc=audioContext.createOscillator();const gain=audioContext.createGain();
-      osc.type="sine";osc.frequency.value=freq;gain.gain.value=[.5,.25,.15][i];
-      osc.connect(gain);gain.connect(ambienceGain);osc.start();ambienceOscillators.push(osc);
-    });
+    await ambienceAudio.play();
     document.getElementById("musicBtn").textContent="♫ Ambience: On";
-  }catch(e){stopAmbience();alert("Ambient audio is unavailable in this browser.");}
+  }catch(e){
+    document.getElementById("musicBtn").textContent="♫ Ambience: Off";
+    alert("Ambient audio could not be played. Please check that audio/Dark Academia.mp3 exists in the repository.");
+  }
 }
 
 document.getElementById("beginBtn").addEventListener("click",begin);

@@ -843,7 +843,7 @@ const textStatus=document.getElementById("textStatus");
 function textById(id){return (config.texts||[]).find(t=>t.id===id)}
 
 function makeTextNode(t){
-  const n=el("text",{x:t.x,y:t.y,fill:t.c,"font-size":t.size,"text-anchor":t.align||"middle","font-family":"'Cormorant Garamond',serif"});
+  const n=el("text",{x:t.x,y:t.y,fill:t.c,"font-size":t.size,"text-anchor":t.align||"middle","font-family":"'Plus Jakarta Sans',sans-serif"});
   String(t.text||"").split("\n").forEach((line,i)=>{
     const ts=el("tspan",{x:t.x,dy:i?"1.2em":"0"});
     ts.textContent=line||"\u00A0";
